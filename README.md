@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @RadeAPI - my real name is Tim ._.
+- 👋 Hi, I’m @RadeAPI
 - 👀 I’m interested in HTML, CSS
 - 🌱 I’m currently learning Java, JavaScript
 - 💞️ I’m looking to collaborate on ...
