@@ -99,8 +99,9 @@
   }
   .nav-links a:not(.btn):hover{color:var(--gold-light)}
   .nav-links a:not(.btn):hover::after{width:100%}
-  /* Reservieren-Button existiert doppelt: in der Linkliste (mobil) und rechts (Desktop) */
+  /* Reservieren-Button und Sprachwahl existieren doppelt: in der Linkliste (mobil) und rechts (Desktop) */
   .nav-links .btn{display:none}
+  .nav-links .lang-item{display:none}
   .nav-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
   .lang-switch{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex-shrink:0;background:rgba(11,9,8,.4)}
   .lang-switch button{
@@ -437,6 +438,9 @@
 
   /* ---------- Hours / Contact / Map ---------- */
   .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  /* Lange, nicht umbrechbare Inhalte (z. B. E-Mail-Adresse) dürfen die Karten nicht aufsprengen */
+  .info-grid > *{min-width:0}
+  .contact-line > div{min-width:0;overflow-wrap:anywhere}
   .card{
     background:var(--bg-3);border:1px solid var(--line);border-radius:var(--radius);
     padding:44px 40px;
@@ -553,23 +557,33 @@
     .info-grid{grid-template-columns:1fr}
   }
   @media (max-width:820px){
+    /* Kopfzeile kompakt halten, damit der Burger-Button sicher ins Bild passt */
+    .nav{gap:12px}
+    .nav-right{gap:10px}
+    .logo{font-size:1.1rem;gap:8px;min-width:0}
+    .logo > span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .logo .mark{width:32px;height:32px;font-size:.85rem}
     .nav-links{
       position:fixed;inset:0;
       background:rgba(11,9,8,.97);backdrop-filter:blur(20px);
-      flex-direction:column;justify-content:center;gap:32px;
+      flex-direction:column;justify-content:center;gap:30px;
       transform:translateX(100%);transition:transform .45s cubic-bezier(.7,0,.2,1);
     }
     .nav-links.open{transform:none}
     .nav-links a{font-size:1.05rem}
     .burger{display:flex}
     .nav-right .btn{display:none}
+    /* Sprachwahl mobil nur im aufgeklappten Menü */
+    .nav-right .lang-switch{display:none}
     .nav-links .btn{display:inline-flex}
-    .lang-switch button{padding:8px 10px}
+    .nav-links .lang-item{display:block}
+    .nav-links .lang-switch button{padding:11px 18px;font-size:.85rem}
     section{padding:84px 0}
     .menu-panel.active,.events-grid,.quotes-grid{grid-template-columns:1fr}
     .reserve-box{padding:42px 26px}
     form{grid-template-columns:1fr}
     .private-card{padding:38px 28px}
+    .card{padding:34px 24px}
   }
 </style>
 </head>
@@ -591,6 +605,13 @@
         <li><a href="#gallery" data-i18n="nav.gallery">Galerie</a></li>
         <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
         <li><a href="#reserve" class="btn btn-gold" data-i18n="nav.reserveLong">Tisch reservieren</a></li>
+        <li class="lang-item">
+          <div class="lang-switch">
+            <button data-lang="de" class="active">DE</button>
+            <button data-lang="en">EN</button>
+            <button data-lang="tr">TR</button>
+          </div>
+        </li>
       </ul>
     </nav>
     <div class="nav-right">
