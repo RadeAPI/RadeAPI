@@ -131,11 +131,13 @@
     border:1px solid rgba(244,238,228,.28);
   }
   .btn-ghost:hover{border-color:var(--gold);color:var(--gold-light);transform:translateY(-2px)}
+  /* Menü-Zustand rein per CSS (Checkbox), damit die Navigation auch ohne JavaScript funktioniert */
+  .nav-toggle{position:absolute;opacity:0;pointer-events:none}
   .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:12px;margin:-6px;z-index:110}
   .burger span{width:26px;height:2px;background:var(--text);transition:.35s;border-radius:2px}
-  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-  .burger.open span:nth-child(2){opacity:0}
-  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-toggle:checked ~ .nav-right .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle:checked ~ .nav-right .burger span:nth-child(2){opacity:0}
+  .nav-toggle:checked ~ .nav-right .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
   /* ---------- Hero ---------- */
   .hero{
@@ -577,7 +579,7 @@
       transform:translateX(100%);transition:transform .45s cubic-bezier(.7,0,.2,1);
       overflow-y:auto;
     }
-    .nav-links.open{transform:none}
+    .nav-toggle:checked ~ nav .nav-links{transform:none}
     .nav-links a{font-size:1.05rem}
     .burger{display:flex}
     .nav-right .btn{display:none}
@@ -609,6 +611,7 @@
 <!-- ===== Navigation ===== -->
 <header id="header">
   <div class="container nav">
+    <input type="checkbox" id="navToggle" class="nav-toggle" aria-label="Menü umschalten">
     <a href="#top" class="logo">
       <span class="mark">☾✦</span>
       <span>Dennis <em>Bar</em> Restaurant</span>
@@ -638,9 +641,9 @@
         <button data-lang="tr">TR</button>
       </div>
       <a href="#reserve" class="btn btn-gold" data-i18n="nav.reserveShort">Reservieren</a>
-      <button class="burger" id="burger" aria-label="Menü öffnen">
+      <label for="navToggle" class="burger" id="burger">
         <span></span><span></span><span></span>
-      </button>
+      </label>
     </div>
   </div>
 </header>
@@ -1325,16 +1328,11 @@
   }, {passive:true});
   toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
-  const burger = document.getElementById('burger');
-  const navLinks = document.getElementById('navLinks');
-  burger.addEventListener('click', () => {
-    burger.classList.toggle('open');
-    navLinks.classList.toggle('open');
-  });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    burger.classList.remove('open');
-    navLinks.classList.remove('open');
-  }));
+  // Menü öffnen/schließen läuft rein über die CSS-Checkbox (#navToggle);
+  // JS schließt es nur zusätzlich beim Tippen auf einen Link
+  const navToggle = document.getElementById('navToggle');
+  document.getElementById('navLinks').querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => { navToggle.checked = false; }));
 
   document.querySelectorAll('.menu-tab').forEach(tab => {
     tab.addEventListener('click', () => {
