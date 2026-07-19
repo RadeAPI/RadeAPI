@@ -90,7 +90,7 @@
   .nav-links{display:flex;align-items:center;gap:30px;list-style:none}
   .nav-links a{
     color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:600;
-    letter-spacing:.12em;text-transform:uppercase;
+    letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
     transition:color .3s;position:relative;
   }
   .nav-links a:not(.btn)::after{
@@ -99,8 +99,17 @@
   }
   .nav-links a:not(.btn):hover{color:var(--gold-light)}
   .nav-links a:not(.btn):hover::after{width:100%}
-  /* Reservieren-Button existiert doppelt: in der Linkliste (mobil) und daneben (Desktop) */
+  /* Reservieren-Button existiert doppelt: in der Linkliste (mobil) und rechts (Desktop) */
   .nav-links .btn{display:none}
+  .nav-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
+  .lang-switch{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex-shrink:0;background:rgba(11,9,8,.4)}
+  .lang-switch button{
+    background:none;border:none;color:var(--muted);cursor:pointer;
+    font-family:var(--font-body);font-weight:700;font-size:.72rem;letter-spacing:.08em;
+    padding:9px 13px;transition:all .3s;
+  }
+  .lang-switch button:hover{color:var(--gold-light)}
+  .lang-switch button.active{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#181206}
   .btn{
     display:inline-flex;align-items:center;gap:10px;
     padding:14px 30px;border-radius:999px;
@@ -246,14 +255,6 @@
     position:absolute;bottom:30px;left:0;right:0;text-align:center;
     font-family:var(--font-display);font-style:italic;color:var(--gold-light);font-size:1.1rem;
   }
-  .about-stamp{
-    position:absolute;top:-26px;right:-26px;width:120px;height:120px;border-radius:50%;
-    background:var(--bg);border:1px solid var(--line-strong);
-    display:grid;place-items:center;text-align:center;
-    font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
-    animation:spin 24s linear infinite;box-shadow:0 10px 40px rgba(0,0,0,.5);
-  }
-  @keyframes spin{to{transform:rotate(360deg)}}
   .about-text h3{font-family:var(--font-display);font-size:1.5rem;margin:34px 0 10px;color:var(--gold-light)}
   .about-text h3:first-of-type{margin-top:0}
   .about-text p{color:var(--muted)}
@@ -326,7 +327,7 @@
     color:#181206;background:linear-gradient(135deg,var(--gold-light),var(--gold));
     padding:6px 16px;border-radius:999px;
   }
-  .event-card.teal .event-day{background:linear-gradient(135deg,#6fd6cb,var(--teal));}
+  .event-card.teal .event-day{background:linear-gradient(135deg,#6fd6cb,var(--teal))}
   .event-card h4{font-family:var(--font-display);font-size:1.45rem;margin-bottom:10px}
   .event-card p{color:var(--muted);font-size:.92rem}
   .event-card .event-time{
@@ -338,7 +339,7 @@
     transform:rotate(-12deg);pointer-events:none;
   }
 
-  /* ---------- Private Feiern & Catering ---------- */
+  /* ---------- Private Feiern ---------- */
   .private-grid{max-width:680px;margin:0 auto}
   .private-card{
     border-radius:var(--radius);border:1px solid var(--line);padding:48px 42px;
@@ -402,9 +403,7 @@
   }
   .stars{color:var(--gold);letter-spacing:4px;margin-bottom:16px;font-size:.9rem}
   .quote-card blockquote{color:var(--text);font-size:.97rem;font-style:italic;margin-bottom:22px}
-  .quote-card cite{
-    display:flex;align-items:center;gap:12px;font-style:normal;
-  }
+  .quote-card cite{display:flex;align-items:center;gap:12px;font-style:normal}
   .quote-card .avatar{
     width:42px;height:42px;border-radius:50%;flex-shrink:0;
     display:grid;place-items:center;font-weight:800;font-size:.9rem;color:#181206;
@@ -550,7 +549,6 @@
   @media (max-width:960px){
     .about-grid{grid-template-columns:1fr;gap:44px}
     .about-visual{max-width:440px;margin:0 auto;aspect-ratio:1}
-    .about-stamp{top:-16px;right:6px;width:100px;height:100px}
     .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:180px}
     .info-grid{grid-template-columns:1fr}
   }
@@ -564,8 +562,9 @@
     .nav-links.open{transform:none}
     .nav-links a{font-size:1.05rem}
     .burger{display:flex}
-    .nav > .btn{display:none}
+    .nav-right .btn{display:none}
     .nav-links .btn{display:inline-flex}
+    .lang-switch button{padding:8px 10px}
     section{padding:84px 0}
     .menu-panel.active,.events-grid,.quotes-grid{grid-template-columns:1fr}
     .reserve-box{padding:42px 26px}
@@ -585,19 +584,26 @@
     </a>
     <nav>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#about">Über uns</a></li>
-        <li><a href="#menu">Speisekarte</a></li>
-        <li><a href="#events">Events</a></li>
-        <li><a href="#private">Feiern</a></li>
-        <li><a href="#gallery">Galerie</a></li>
-        <li><a href="#contact">Kontakt</a></li>
-        <li><a href="#reserve" class="btn btn-gold">Tisch reservieren</a></li>
+        <li><a href="#about" data-i18n="nav.about">Über uns</a></li>
+        <li><a href="#menu" data-i18n="nav.menu">Speisekarte</a></li>
+        <li><a href="#events" data-i18n="nav.events">Events</a></li>
+        <li><a href="#private" data-i18n="nav.private">Feiern</a></li>
+        <li><a href="#gallery" data-i18n="nav.gallery">Galerie</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
+        <li><a href="#reserve" class="btn btn-gold" data-i18n="nav.reserveLong">Tisch reservieren</a></li>
       </ul>
     </nav>
-    <a href="#reserve" class="btn btn-gold">Reservieren</a>
-    <button class="burger" id="burger" aria-label="Menü öffnen">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+      <div class="lang-switch" id="langSwitch" aria-label="Sprache wählen">
+        <button data-lang="de" class="active">DE</button>
+        <button data-lang="en">EN</button>
+        <button data-lang="tr">TR</button>
+      </div>
+      <a href="#reserve" class="btn btn-gold" data-i18n="nav.reserveShort">Reservieren</a>
+      <button class="burger" id="burger" aria-label="Menü öffnen">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -607,33 +613,33 @@
   <div class="glow glow-1"></div>
   <div class="glow glow-2"></div>
   <div class="hero-inner">
-    <div class="est">☾ Türkische Bar · Restaurant · Lounge</div>
+    <div class="est" data-i18n="hero.est">☾ Türkische Bar · Restaurant · Lounge</div>
     <h1>Dennis Bar<span class="accent">Restaurant</span></h1>
-    <p class="sub">Wo türkische Gastfreundschaft auf moderne Barkultur trifft.
+    <p class="sub" data-i18n="hero.sub">Wo türkische Gastfreundschaft auf moderne Barkultur trifft.
     Meze, Grillspezialitäten vom Mangal, Cocktails &amp; Rakı – mitten im Herzen der Stadt.</p>
     <div class="hero-cta">
-      <a href="#reserve" class="btn btn-gold">Jetzt reservieren</a>
-      <a href="#menu" class="btn btn-ghost">Speisekarte entdecken</a>
+      <a href="#reserve" class="btn btn-gold" data-i18n="hero.cta1">Jetzt reservieren</a>
+      <a href="#menu" class="btn btn-ghost" data-i18n="hero.cta2">Speisekarte entdecken</a>
     </div>
     <div class="hero-meta">
-      <div><div class="num">100%</div><div class="lbl">Frische Zutaten</div></div>
-      <div><div class="num">40+</div><div class="lbl">Meze &amp; Gerichte</div></div>
-      <div><div class="num">Live</div><div class="lbl">Musik am Wochenende</div></div>
-      <div><div class="num">Bis 2 Uhr</div><div class="lbl">Bar geöffnet</div></div>
+      <div><div class="num">100%</div><div class="lbl" data-i18n="hero.m1">Frische Zutaten</div></div>
+      <div><div class="num">40+</div><div class="lbl" data-i18n="hero.m2">Meze &amp; Gerichte</div></div>
+      <div><div class="num">Live</div><div class="lbl" data-i18n="hero.m3">Musik am Wochenende</div></div>
+      <div><div class="num" data-i18n="hero.m4num">Bis 2 Uhr</div><div class="lbl" data-i18n="hero.m4">Bar geöffnet</div></div>
     </div>
   </div>
-  <div class="scroll-hint">Scrollen</div>
+  <div class="scroll-hint" data-i18n="hero.scroll">Scrollen</div>
 </section>
 
 <!-- ===== Marquee ===== -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>Meze <b>✦</b></span><span>Rakı <b>✦</b></span><span>Mangal-Grill <b>✦</b></span>
-    <span>Cocktails <b>✦</b></span><span>Live-Musik <b>✦</b></span><span>Baklava <b>✦</b></span>
-    <span>Hoş geldiniz <b>✦</b></span><span>Türkischer Mokka <b>✦</b></span><span>Efes vom Fass <b>✦</b></span>
-    <span>Meze <b>✦</b></span><span>Rakı <b>✦</b></span><span>Mangal-Grill <b>✦</b></span>
-    <span>Cocktails <b>✦</b></span><span>Live-Musik <b>✦</b></span><span>Baklava <b>✦</b></span>
-    <span>Hoş geldiniz <b>✦</b></span><span>Türkischer Mokka <b>✦</b></span><span>Efes vom Fass <b>✦</b></span>
+    <span data-i18n="mq.1">Meze <b>✦</b></span><span data-i18n="mq.2">Rakı <b>✦</b></span><span data-i18n="mq.3">Mangal-Grill <b>✦</b></span>
+    <span data-i18n="mq.4">Cocktails <b>✦</b></span><span data-i18n="mq.5">Live-Musik <b>✦</b></span><span data-i18n="mq.6">Baklava <b>✦</b></span>
+    <span data-i18n="mq.7">Hoş geldiniz <b>✦</b></span><span data-i18n="mq.8">Türkischer Mokka <b>✦</b></span><span data-i18n="mq.9">Efes vom Fass <b>✦</b></span>
+    <span data-i18n="mq.1">Meze <b>✦</b></span><span data-i18n="mq.2">Rakı <b>✦</b></span><span data-i18n="mq.3">Mangal-Grill <b>✦</b></span>
+    <span data-i18n="mq.4">Cocktails <b>✦</b></span><span data-i18n="mq.5">Live-Musik <b>✦</b></span><span data-i18n="mq.6">Baklava <b>✦</b></span>
+    <span data-i18n="mq.7">Hoş geldiniz <b>✦</b></span><span data-i18n="mq.8">Türkischer Mokka <b>✦</b></span><span data-i18n="mq.9">Efes vom Fass <b>✦</b></span>
   </div>
 </div>
 
@@ -645,25 +651,24 @@
       <div class="about-visual reveal">
         <div class="inner-frame"></div>
         <div class="big-icon">🔥</div>
-        <div class="caption">„Hoş geldiniz – Herzlich willkommen"</div>
-        <div class="about-stamp">Est. ✦ Dennis Bar ✦ Restaurant ✦</div>
+        <div class="caption" data-i18n="about.caption">„Hoş geldiniz – Herzlich willkommen"</div>
       </div>
       <div class="about-text reveal">
-        <div class="eyebrow left">Unsere Geschichte</div>
-        <h3>Tradition trifft Moderne</h3>
-        <p>Im Dennis Bar Restaurant verbinden wir die reiche Küche der Türkei mit dem
+        <div class="eyebrow left" data-i18n="about.eyebrow">Unsere Geschichte</div>
+        <h3 data-i18n="about.h1">Tradition trifft Moderne</h3>
+        <p data-i18n="about.p1">Im Dennis Bar Restaurant verbinden wir die reiche Küche der Türkei mit dem
         Lebensgefühl einer modernen Bar. Vom ersten Çay am Nachmittag bis zum letzten
         Rakı nach Mitternacht – bei uns wird jeder Besuch zu einem Erlebnis.</p>
-        <h3>Vom Mangal auf den Tisch</h3>
-        <p>Unsere Köche bereiten Adana Kebap, Lammspieße und frisches Pide über offener
+        <h3 data-i18n="about.h2">Vom Mangal auf den Tisch</h3>
+        <p data-i18n="about.p2">Unsere Köche bereiten Adana Kebap, Lammspieße und frisches Pide über offener
         Holzkohle zu – genau wie in Istanbul. Dazu servieren wir hausgemachte Meze,
         knuspriges Fladenbrot und ausgewählte Weine aus Anatolien.</p>
         <div class="about-badges">
-          <span class="badge">🍢 Mangal-Grill</span>
-          <span class="badge">🥂 Cocktailbar</span>
-          <span class="badge">🎶 Live-Musik</span>
-          <span class="badge">🌿 Vegetarische Auswahl</span>
-          <span class="badge">🎉 Private Feiern</span>
+          <span class="badge" data-i18n="about.b1">🍢 Mangal-Grill</span>
+          <span class="badge" data-i18n="about.b2">🥂 Cocktailbar</span>
+          <span class="badge" data-i18n="about.b3">🎶 Live-Musik</span>
+          <span class="badge" data-i18n="about.b4">🌿 Vegetarische Auswahl</span>
+          <span class="badge" data-i18n="about.b5">🎉 Private Feiern</span>
         </div>
       </div>
     </div>
@@ -674,54 +679,54 @@
 <section id="menu">
   <div class="container">
     <div class="section-head reveal">
-      <div class="eyebrow">Speisekarte</div>
-      <h2>Ein Fest für <i>alle Sinne</i></h2>
-      <p>Eine Auswahl unserer Signature-Gerichte. Die vollständige Karte mit tagesaktuellen
+      <div class="eyebrow" data-i18n="menu.eyebrow">Speisekarte</div>
+      <h2 data-i18n="menu.h2">Ein Fest für <i>alle Sinne</i></h2>
+      <p data-i18n="menu.p">Eine Auswahl unserer Signature-Gerichte. Die vollständige Karte mit tagesaktuellen
       Empfehlungen erhalten Sie bei uns im Haus.</p>
     </div>
 
     <div class="menu-tabs reveal" role="tablist">
-      <button class="menu-tab active" data-tab="meze">Meze &amp; Vorspeisen</button>
-      <button class="menu-tab" data-tab="grill">Vom Grill</button>
-      <button class="menu-tab" data-tab="drinks">Bar &amp; Getränke</button>
-      <button class="menu-tab" data-tab="dessert">Desserts</button>
+      <button class="menu-tab active" data-tab="meze" data-i18n="menu.tab1">Meze &amp; Vorspeisen</button>
+      <button class="menu-tab" data-tab="grill" data-i18n="menu.tab2">Vom Grill</button>
+      <button class="menu-tab" data-tab="drinks" data-i18n="menu.tab3">Bar &amp; Getränke</button>
+      <button class="menu-tab" data-tab="dessert" data-i18n="menu.tab4">Desserts</button>
     </div>
 
     <div class="menu-panel active" id="panel-meze">
-      <div class="dish-card"><span class="dish-icon">🫒</span><h4>Meze-Platte „Istanbul"</h4><p>Hummus, Haydari, Acılı Ezme, Oliven &amp; ofenfrisches Fladenbrot – ideal zum Teilen.</p><div class="dish-tags"><span class="tag sig">Signature</span><span class="tag veg">Vegetarisch</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🥟</span><h4>Sigara Böreği</h4><p>Knusprige Teigröllchen, gefüllt mit Schafskäse und frischer Petersilie.</p><div class="dish-tags"><span class="tag veg">Vegetarisch</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🌶️</span><h4>Sucuk Izgara</h4><p>Gegrillte Knoblauchwurst, glasiert mit Granatapfelsirup.</p><div class="dish-tags"><span class="tag hot">Würzig</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🥗</span><h4>Çoban Salatası</h4><p>Klassischer Hirtensalat mit Tomaten, Gurken, Zwiebeln &amp; Schafskäse.</p><div class="dish-tags"><span class="tag veg">Vegetarisch</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🦪</span><h4>Midye Dolma</h4><p>Gefüllte Miesmuscheln mit Gewürzreis und frischer Zitrone.</p><div class="dish-tags"><span class="tag fish">Meeresfrüchte</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🫓</span><h4>Lahmacun</h4><p>Hauchdünner Teigfladen mit würzigem Hackfleisch, Salat &amp; Zitrone.</p><div class="dish-tags"><span class="tag sig">Klassiker</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🫒</span><h4 data-i18n="d.meze1.n">Meze-Platte „Istanbul"</h4><p data-i18n="d.meze1.d">Hummus, Haydari, Acılı Ezme, Oliven &amp; ofenfrisches Fladenbrot – ideal zum Teilen.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.sig">Signature</span><span class="tag veg" data-i18n="tag.veg">Vegetarisch</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🥟</span><h4>Sigara Böreği</h4><p data-i18n="d.meze2.d">Knusprige Teigröllchen, gefüllt mit Schafskäse und frischer Petersilie.</p><div class="dish-tags"><span class="tag veg" data-i18n="tag.veg">Vegetarisch</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🌶️</span><h4>Sucuk Izgara</h4><p data-i18n="d.meze3.d">Gegrillte Knoblauchwurst, glasiert mit Granatapfelsirup.</p><div class="dish-tags"><span class="tag hot" data-i18n="tag.hot">Würzig</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🥗</span><h4>Çoban Salatası</h4><p data-i18n="d.meze4.d">Klassischer Hirtensalat mit Tomaten, Gurken, Zwiebeln &amp; Schafskäse.</p><div class="dish-tags"><span class="tag veg" data-i18n="tag.veg">Vegetarisch</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🦪</span><h4>Midye Dolma</h4><p data-i18n="d.meze5.d">Gefüllte Miesmuscheln mit Gewürzreis und frischer Zitrone.</p><div class="dish-tags"><span class="tag fish" data-i18n="tag.fish">Meeresfrüchte</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🫓</span><h4>Lahmacun</h4><p data-i18n="d.meze6.d">Hauchdünner Teigfladen mit würzigem Hackfleisch, Salat &amp; Zitrone.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.classic">Klassiker</span></div></div>
     </div>
 
     <div class="menu-panel" id="panel-grill">
-      <div class="dish-card"><span class="dish-icon">🔥</span><h4>Adana Kebap</h4><p>Pikanter Hackfleischspieß vom Holzkohlegrill mit Bulgur &amp; Grillgemüse.</p><div class="dish-tags"><span class="tag sig">Signature</span><span class="tag hot">Pikant</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🍢</span><h4>Kuzu Şiş</h4><p>Zarte Lammspieße mit Sumach-Zwiebeln und Ofenkartoffel.</p><div class="dish-tags"><span class="tag sig">Empfehlung</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🍗</span><h4>Tavuk Kanat</h4><p>Marinierte Hähnchenflügel vom Mangal mit hausgemachter Knoblauchsauce.</p><div class="dish-tags"><span class="tag hot">Würzig</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🍽️</span><h4>Karışık Izgara</h4><p>Große gemischte Grillplatte für zwei – das Beste vom Mangal.</p><div class="dish-tags"><span class="tag sig">Für 2 Personen</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🐟</span><h4>Levrek Izgara</h4><p>Gegrillter Wolfsbarsch mit Rucola und Zitronen-Olivenöl.</p><div class="dish-tags"><span class="tag fish">Fisch</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🧀</span><h4>Pide „Dennis Special"</h4><p>Ofenfrisches Schiffchen mit Sucuk, Käse &amp; Ei – unser Haus-Pide.</p><div class="dish-tags"><span class="tag sig">Signature</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🔥</span><h4>Adana Kebap</h4><p data-i18n="d.grill1.d">Pikanter Hackfleischspieß vom Holzkohlegrill mit Bulgur &amp; Grillgemüse.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.sig">Signature</span><span class="tag hot" data-i18n="tag.hot2">Pikant</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🍢</span><h4>Kuzu Şiş</h4><p data-i18n="d.grill2.d">Zarte Lammspieße mit Sumach-Zwiebeln und Ofenkartoffel.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.rec">Empfehlung</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🍗</span><h4>Tavuk Kanat</h4><p data-i18n="d.grill3.d">Marinierte Hähnchenflügel vom Mangal mit hausgemachter Knoblauchsauce.</p><div class="dish-tags"><span class="tag hot" data-i18n="tag.hot">Würzig</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🍽️</span><h4>Karışık Izgara</h4><p data-i18n="d.grill4.d">Große gemischte Grillplatte für zwei – das Beste vom Mangal.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.for2">Für 2 Personen</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🐟</span><h4>Levrek Izgara</h4><p data-i18n="d.grill5.d">Gegrillter Wolfsbarsch mit Rucola und Zitronen-Olivenöl.</p><div class="dish-tags"><span class="tag fish" data-i18n="tag.fish2">Fisch</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🧀</span><h4>Pide „Dennis Special"</h4><p data-i18n="d.grill6.d">Ofenfrisches Schiffchen mit Sucuk, Käse &amp; Ei – unser Haus-Pide.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.sig">Signature</span></div></div>
     </div>
 
     <div class="menu-panel" id="panel-drinks">
-      <div class="dish-card"><span class="dish-icon">🥛</span><h4>Rakı – „Löwenmilch"</h4><p>Klassisch serviert mit Eiswasser, dazu Melone und Weißkäse.</p><div class="dish-tags"><span class="tag sig">Tradition</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🍹</span><h4>Bosporus Mule</h4><p>Vodka, Ingwer, Granatapfel, Limette &amp; frische Minze.</p><div class="dish-tags"><span class="tag sig">Signature</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🌅</span><h4>Istanbul Sunset</h4><p>Gin, Aperol, Orangenblüte &amp; Tonic – unser Sundowner.</p><div class="dish-tags"><span class="tag sig">Signature</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🍺</span><h4>Efes Pilsen</h4><p>Türkisches Bier, frisch vom Fass gezapft.</p><div class="dish-tags"><span class="tag sig">Vom Fass</span></div></div>
-      <div class="dish-card"><span class="dish-icon">☕</span><h4>Türkischer Mokka</h4><p>Traditionell im Kupferkännchen gebrüht, serviert mit Lokum.</p><div class="dish-tags"><span class="tag veg">Alkoholfrei</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🫖</span><h4>Ayran &amp; Çay</h4><p>Hausgemachter Joghurtdrink oder schwarzer Tee im Tulpenglas.</p><div class="dish-tags"><span class="tag veg">Alkoholfrei</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🥛</span><h4 data-i18n="d.dr1.n">Rakı – „Löwenmilch"</h4><p data-i18n="d.dr1.d">Klassisch serviert mit Eiswasser, dazu Melone und Weißkäse.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.trad">Tradition</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🍹</span><h4>Bosporus Mule</h4><p data-i18n="d.dr2.d">Vodka, Ingwer, Granatapfel, Limette &amp; frische Minze.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.sig">Signature</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🌅</span><h4>Istanbul Sunset</h4><p data-i18n="d.dr3.d">Gin, Aperol, Orangenblüte &amp; Tonic – unser Sundowner.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.sig">Signature</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🍺</span><h4>Efes Pilsen</h4><p data-i18n="d.dr4.d">Türkisches Bier, frisch vom Fass gezapft.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.tap">Vom Fass</span></div></div>
+      <div class="dish-card"><span class="dish-icon">☕</span><h4 data-i18n="d.dr5.n">Türkischer Mokka</h4><p data-i18n="d.dr5.d">Traditionell im Kupferkännchen gebrüht, serviert mit Lokum.</p><div class="dish-tags"><span class="tag veg" data-i18n="tag.soft">Alkoholfrei</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🫖</span><h4>Ayran &amp; Çay</h4><p data-i18n="d.dr6.d">Hausgemachter Joghurtdrink oder schwarzer Tee im Tulpenglas.</p><div class="dish-tags"><span class="tag veg" data-i18n="tag.soft">Alkoholfrei</span></div></div>
     </div>
 
     <div class="menu-panel" id="panel-dessert">
-      <div class="dish-card"><span class="dish-icon">🍯</span><h4>Baklava</h4><p>Hausgemacht mit Pistazien und feinem Honigsirup.</p><div class="dish-tags"><span class="tag sig">Hausgemacht</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🧀</span><h4>Künefe</h4><p>Warmes Engelshaar-Dessert mit geschmolzenem Käse &amp; Pistazien.</p><div class="dish-tags"><span class="tag sig">Empfehlung</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🍚</span><h4>Sütlaç</h4><p>Im Ofen gebackener Milchreis mit Zimt.</p><div class="dish-tags"><span class="tag veg">Vegetarisch</span></div></div>
-      <div class="dish-card"><span class="dish-icon">🍬</span><h4>Lokum-Auswahl</h4><p>Turkish Delight in vier Sorten – perfekt zum Mokka.</p><div class="dish-tags"><span class="tag veg">Vegetarisch</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🍯</span><h4>Baklava</h4><p data-i18n="d.de1.d">Hausgemacht mit Pistazien und feinem Honigsirup.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.home">Hausgemacht</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🧀</span><h4>Künefe</h4><p data-i18n="d.de2.d">Warmes Engelshaar-Dessert mit geschmolzenem Käse &amp; Pistazien.</p><div class="dish-tags"><span class="tag sig" data-i18n="tag.rec">Empfehlung</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🍚</span><h4>Sütlaç</h4><p data-i18n="d.de3.d">Im Ofen gebackener Milchreis mit Zimt.</p><div class="dish-tags"><span class="tag veg" data-i18n="tag.veg">Vegetarisch</span></div></div>
+      <div class="dish-card"><span class="dish-icon">🍬</span><h4 data-i18n="d.de4.n">Lokum-Auswahl</h4><p data-i18n="d.de4.d">Turkish Delight in vier Sorten – perfekt zum Mokka.</p><div class="dish-tags"><span class="tag veg" data-i18n="tag.veg">Vegetarisch</span></div></div>
     </div>
 
-    <div class="menu-note">Allergene &amp; Zusatzstoffe auf Anfrage · Vegetarische und vegane Optionen verfügbar ·
+    <div class="menu-note" data-i18n="menu.note">Allergene &amp; Zusatzstoffe auf Anfrage · Vegetarische und vegane Optionen verfügbar ·
     Fragen zur Karte? <a href="#contact">Sprechen Sie uns an</a></div>
   </div>
 </section>
@@ -731,77 +736,77 @@
   <div class="pattern"></div>
   <div class="container">
     <div class="section-head reveal">
-      <div class="eyebrow">Events &amp; Programm</div>
-      <h2>Jede Woche <i>ein Erlebnis</i></h2>
-      <p>Bei uns ist immer etwas los – von Live-Musik bis zum entspannten Sonntagsfrühstück.</p>
+      <div class="eyebrow" data-i18n="ev.eyebrow">Events &amp; Programm</div>
+      <h2 data-i18n="ev.h2">Jede Woche <i>ein Erlebnis</i></h2>
+      <p data-i18n="ev.p">Bei uns ist immer etwas los – von Live-Musik bis zum entspannten Sonntagsfrühstück.</p>
     </div>
     <div class="events-grid">
       <div class="event-card reveal">
         <span class="bg-icon">🎶</span>
-        <span class="event-day">Freitag</span>
-        <h4>Live-Musik Abende</h4>
-        <p>Saz, Gitarre und türkische Klassiker – wechselnde Künstler sorgen für Gänsehautmomente an der Bar.</p>
-        <div class="event-time">🕘 Ab 21:00 Uhr</div>
+        <span class="event-day" data-i18n="ev.1.day">Freitag</span>
+        <h4 data-i18n="ev.1.t">Live-Musik Abende</h4>
+        <p data-i18n="ev.1.d">Saz, Gitarre und türkische Klassiker – wechselnde Künstler sorgen für Gänsehautmomente an der Bar.</p>
+        <div class="event-time" data-i18n="ev.1.time">🕘 Ab 21:00 Uhr</div>
       </div>
       <div class="event-card teal reveal d1">
         <span class="bg-icon">🎧</span>
-        <span class="event-day">Samstag</span>
+        <span class="event-day" data-i18n="ev.2.day">Samstag</span>
         <h4>DJ &amp; Cocktail Night</h4>
-        <p>Moderne Beats treffen orientalische Sounds. Dazu unsere Signature-Cocktails bis in die Nacht.</p>
-        <div class="event-time">🕙 Ab 22:00 Uhr</div>
+        <p data-i18n="ev.2.d">Moderne Beats treffen orientalische Sounds. Dazu unsere Signature-Cocktails bis in die Nacht.</p>
+        <div class="event-time" data-i18n="ev.2.time">🕙 Ab 22:00 Uhr</div>
       </div>
       <div class="event-card reveal d2">
         <span class="bg-icon">🍳</span>
-        <span class="event-day">Sonntag</span>
-        <h4>Türkisches Frühstück</h4>
-        <p>Kahvaltı wie am Bosporus: reichhaltige Frühstücksplatten für die ganze Familie – mit endlos Çay.</p>
-        <div class="event-time">🕙 10:00 – 14:00 Uhr</div>
+        <span class="event-day" data-i18n="ev.3.day">Sonntag</span>
+        <h4 data-i18n="ev.3.t">Türkisches Frühstück</h4>
+        <p data-i18n="ev.3.d">Kahvaltı wie am Bosporus: reichhaltige Frühstücksplatten für die ganze Familie – mit endlos Çay.</p>
+        <div class="event-time" data-i18n="ev.3.time">🕙 10:00 – 14:00 Uhr</div>
       </div>
       <div class="event-card teal reveal">
         <span class="bg-icon">⚽</span>
-        <span class="event-day">Spieltage</span>
-        <h4>Fußball Live</h4>
-        <p>Süper Lig, Bundesliga &amp; Champions League auf Großleinwand – mit Stadionatmosphäre.</p>
-        <div class="event-time">🕒 Nach Spielplan</div>
+        <span class="event-day" data-i18n="ev.4.day">Spieltage</span>
+        <h4 data-i18n="ev.4.t">Fußball Live</h4>
+        <p data-i18n="ev.4.d">Süper Lig, Bundesliga &amp; Champions League auf Großleinwand – mit Stadionatmosphäre.</p>
+        <div class="event-time" data-i18n="ev.4.time">🕒 Nach Spielplan</div>
       </div>
       <div class="event-card reveal d1">
         <span class="bg-icon">🍸</span>
-        <span class="event-day">Mittwoch</span>
-        <h4>After-Work Abend</h4>
-        <p>Der entspannte Start ins Wochenende light: Meze-Häppchen und Drinks nach Feierabend.</p>
-        <div class="event-time">🕕 17:00 – 20:00 Uhr</div>
+        <span class="event-day" data-i18n="ev.5.day">Mittwoch</span>
+        <h4 data-i18n="ev.5.t">After-Work Abend</h4>
+        <p data-i18n="ev.5.d">Der entspannte Start ins Wochenende light: Meze-Häppchen und Drinks nach Feierabend.</p>
+        <div class="event-time" data-i18n="ev.5.time">🕕 17:00 – 20:00 Uhr</div>
       </div>
       <div class="event-card teal reveal d2">
         <span class="bg-icon">✨</span>
-        <span class="event-day">Monatlich</span>
-        <h4>Spezial-Abende</h4>
-        <p>Rakı-Tastings, Mangal-Nächte und saisonale Themenabende – angekündigt auf Instagram.</p>
-        <div class="event-time">📅 Termine folgen</div>
+        <span class="event-day" data-i18n="ev.6.day">Monatlich</span>
+        <h4 data-i18n="ev.6.t">Spezial-Abende</h4>
+        <p data-i18n="ev.6.d">Rakı-Tastings, Mangal-Nächte und saisonale Themenabende – angekündigt auf Instagram.</p>
+        <div class="event-time" data-i18n="ev.6.time">📅 Termine folgen</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== Private Feiern & Catering ===== -->
+<!-- ===== Private Feiern ===== -->
 <section id="private">
   <div class="container">
     <div class="section-head reveal">
-      <div class="eyebrow">Private Feiern</div>
-      <h2>Ihr Anlass, <i>unser Haus</i></h2>
-      <p>Ob Geburtstag, Verlobung oder Jubiläum – wir machen Ihren besonderen Tag unvergesslich.</p>
+      <div class="eyebrow" data-i18n="pv.eyebrow">Private Feiern</div>
+      <h2 data-i18n="pv.h2">Ihr Anlass, <i>unser Haus</i></h2>
+      <p data-i18n="pv.p">Ob Geburtstag, Verlobung oder Jubiläum – wir machen Ihren besonderen Tag unvergesslich.</p>
     </div>
     <div class="private-grid">
       <div class="private-card p1 reveal">
         <div class="p-icon">🎉</div>
-        <h3>Private Feiern</h3>
-        <p>Feiern Sie in stilvollem Ambiente – exklusiv im eigenen Bereich oder mit dem ganzen Restaurant für sich.</p>
+        <h3 data-i18n="pv.card.t">Private Feiern</h3>
+        <p data-i18n="pv.card.p">Feiern Sie in stilvollem Ambiente – exklusiv im eigenen Bereich oder mit dem ganzen Restaurant für sich.</p>
         <ul>
-          <li>Geburtstage, Verlobungen &amp; Jubiläen</li>
-          <li>Individuelle Menüs nach Absprache</li>
-          <li>Eigener Bereich für bis zu 40 Gäste</li>
-          <li>Musik &amp; Dekoration auf Wunsch</li>
+          <li data-i18n="pv.li1">Geburtstage, Verlobungen &amp; Jubiläen</li>
+          <li data-i18n="pv.li2">Individuelle Menüs nach Absprache</li>
+          <li data-i18n="pv.li3">Eigener Bereich für bis zu 40 Gäste</li>
+          <li data-i18n="pv.li4">Musik &amp; Dekoration auf Wunsch</li>
         </ul>
-        <a href="#reserve" class="btn btn-ghost">Anfrage stellen</a>
+        <a href="#reserve" class="btn btn-ghost" data-i18n="pv.btn">Anfrage stellen</a>
       </div>
     </div>
   </div>
@@ -811,17 +816,17 @@
 <section class="gallery" id="gallery">
   <div class="container">
     <div class="section-head reveal">
-      <div class="eyebrow">Galerie</div>
-      <h2>Einblicke in <i>unser Haus</i></h2>
-      <p>Atmosphäre, Küche und Momente aus dem Dennis Bar Restaurant.</p>
+      <div class="eyebrow" data-i18n="ga.eyebrow">Galerie</div>
+      <h2 data-i18n="ga.h2">Einblicke in <i>unser Haus</i></h2>
+      <p data-i18n="ga.p">Atmosphäre, Küche und Momente aus dem Dennis Bar Restaurant.</p>
     </div>
     <div class="gallery-grid reveal">
-      <div class="tile wide t1" data-label="Bar &amp; Lounge">🥂</div>
-      <div class="tile t2" data-label="Mangal-Grill">🔥</div>
-      <div class="tile tall t3" data-label="Meze-Vielfalt">🫒</div>
-      <div class="tile t4" data-label="Abendstimmung">🌙</div>
-      <div class="tile t5" data-label="Baklava &amp; Mokka">☕</div>
-      <div class="tile wide t6" data-label="Live-Musik">🎶</div>
+      <div class="tile wide t1" data-label="Bar &amp; Lounge" data-i18n-label="ga.t1">🥂</div>
+      <div class="tile t2" data-label="Mangal-Grill" data-i18n-label="ga.t2">🔥</div>
+      <div class="tile tall t3" data-label="Meze-Vielfalt" data-i18n-label="ga.t3">🫒</div>
+      <div class="tile t4" data-label="Abendstimmung" data-i18n-label="ga.t4">🌙</div>
+      <div class="tile t5" data-label="Baklava &amp; Mokka" data-i18n-label="ga.t5">☕</div>
+      <div class="tile wide t6" data-label="Live-Musik" data-i18n-label="ga.t6">🎶</div>
     </div>
   </div>
 </section>
@@ -830,27 +835,27 @@
 <section id="voices">
   <div class="container">
     <div class="section-head reveal">
-      <div class="eyebrow">Gästestimmen</div>
-      <h2>Das sagen <i>unsere Gäste</i></h2>
+      <div class="eyebrow" data-i18n="vo.eyebrow">Gästestimmen</div>
+      <h2 data-i18n="vo.h2">Das sagen <i>unsere Gäste</i></h2>
     </div>
     <div class="quotes-grid">
       <div class="quote-card reveal">
         <span class="qmark">„</span>
         <div class="stars">★★★★★</div>
-        <blockquote>Das beste Adana Kebap außerhalb Istanbuls! Die Atmosphäre am Freitagabend mit Live-Musik ist einfach unschlagbar.</blockquote>
-        <cite><span class="avatar">MK</span><span class="who"><strong>Melih K.</strong><span>Stammgast seit Tag eins</span></span></cite>
+        <blockquote data-i18n="vo.1.q">Das beste Adana Kebap außerhalb Istanbuls! Die Atmosphäre am Freitagabend mit Live-Musik ist einfach unschlagbar.</blockquote>
+        <cite><span class="avatar">MK</span><span class="who"><strong>Melih K.</strong><span data-i18n="vo.1.r">Stammgast seit Tag eins</span></span></cite>
       </div>
       <div class="quote-card reveal d1">
         <span class="qmark">„</span>
         <div class="stars">★★★★★</div>
-        <blockquote>Wir haben hier unsere Verlobung gefeiert – das Team hat alles perfekt organisiert. Das Meze-Buffet war ein Traum!</blockquote>
-        <cite><span class="avatar">SL</span><span class="who"><strong>Sarah L.</strong><span>Private Feier</span></span></cite>
+        <blockquote data-i18n="vo.2.q">Wir haben hier unsere Verlobung gefeiert – das Team hat alles perfekt organisiert. Das Meze-Buffet war ein Traum!</blockquote>
+        <cite><span class="avatar">SL</span><span class="who"><strong>Sarah L.</strong><span data-i18n="vo.2.r">Private Feier</span></span></cite>
       </div>
       <div class="quote-card reveal d2">
         <span class="qmark">„</span>
         <div class="stars">★★★★★</div>
-        <blockquote>Moderne Bar, ehrliche türkische Küche und unglaublich herzlicher Service. Der Bosporus Mule ist Pflicht!</blockquote>
-        <cite><span class="avatar">JB</span><span class="who"><strong>Jonas B.</strong><span>After-Work Fan</span></span></cite>
+        <blockquote data-i18n="vo.3.q">Moderne Bar, ehrliche türkische Küche und unglaublich herzlicher Service. Der Bosporus Mule ist Pflicht!</blockquote>
+        <cite><span class="avatar">JB</span><span class="who"><strong>Jonas B.</strong><span data-i18n="vo.3.r">After-Work Fan</span></span></cite>
       </div>
     </div>
   </div>
@@ -860,33 +865,33 @@
 <section class="faq" id="faq">
   <div class="container">
     <div class="section-head reveal">
-      <div class="eyebrow">Gut zu wissen</div>
-      <h2>Häufige <i>Fragen</i></h2>
+      <div class="eyebrow" data-i18n="fq.eyebrow">Gut zu wissen</div>
+      <h2 data-i18n="fq.h2">Häufige <i>Fragen</i></h2>
     </div>
     <div class="faq-list reveal">
       <details>
-        <summary>Muss ich reservieren?<span class="chev">＋</span></summary>
-        <div class="answer">Am Wochenende und an Event-Abenden empfehlen wir eine Reservierung – besonders für Gruppen ab 4 Personen. Unter der Woche bekommen Sie meist auch spontan einen Tisch.</div>
+        <summary><span data-i18n="fq.1.q">Muss ich reservieren?</span><span class="chev">＋</span></summary>
+        <div class="answer" data-i18n="fq.1.a">Am Wochenende und an Event-Abenden empfehlen wir eine Reservierung – besonders für Gruppen ab 4 Personen. Unter der Woche bekommen Sie meist auch spontan einen Tisch.</div>
       </details>
       <details>
-        <summary>Gibt es vegetarische und vegane Gerichte?<span class="chev">＋</span></summary>
-        <div class="answer">Ja! Viele unserer Meze sind von Natur aus vegetarisch oder vegan – von Hummus über Çoban Salatası bis zu gegrilltem Gemüse. Sprechen Sie uns einfach an, wir beraten Sie gern.</div>
+        <summary><span data-i18n="fq.2.q">Gibt es vegetarische und vegane Gerichte?</span><span class="chev">＋</span></summary>
+        <div class="answer" data-i18n="fq.2.a">Ja! Viele unserer Meze sind von Natur aus vegetarisch oder vegan – von Hummus über Çoban Salatası bis zu gegrilltem Gemüse. Sprechen Sie uns einfach an, wir beraten Sie gern.</div>
       </details>
       <details>
-        <summary>Kann ich das Restaurant für eine private Feier mieten?<span class="chev">＋</span></summary>
-        <div class="answer">Sehr gerne. Unser separater Bereich fasst bis zu 40 Gäste, für größere Anlässe kann das gesamte Restaurant exklusiv gebucht werden. Kontaktieren Sie uns für ein individuelles Angebot.</div>
+        <summary><span data-i18n="fq.3.q">Kann ich das Restaurant für eine private Feier mieten?</span><span class="chev">＋</span></summary>
+        <div class="answer" data-i18n="fq.3.a">Sehr gerne. Unser separater Bereich fasst bis zu 40 Gäste, für größere Anlässe kann das gesamte Restaurant exklusiv gebucht werden. Kontaktieren Sie uns für ein individuelles Angebot.</div>
       </details>
       <details>
-        <summary>Sind Kinder willkommen?<span class="chev">＋</span></summary>
-        <div class="answer">Natürlich! Besonders beim türkischen Sonntagsfrühstück sind Familien herzlich willkommen. Hochstühle sind vorhanden, und die Küche macht auch kleine Portionen.</div>
+        <summary><span data-i18n="fq.4.q">Sind Kinder willkommen?</span><span class="chev">＋</span></summary>
+        <div class="answer" data-i18n="fq.4.a">Natürlich! Besonders beim türkischen Sonntagsfrühstück sind Familien herzlich willkommen. Hochstühle sind vorhanden, und die Küche macht auch kleine Portionen.</div>
       </details>
       <details>
-        <summary>Gibt es Parkmöglichkeiten?<span class="chev">＋</span></summary>
-        <div class="answer">In den umliegenden Straßen und im nahegelegenen Parkhaus finden Sie ausreichend Parkplätze. Das Restaurant ist außerdem gut mit öffentlichen Verkehrsmitteln erreichbar.</div>
+        <summary><span data-i18n="fq.5.q">Gibt es Parkmöglichkeiten?</span><span class="chev">＋</span></summary>
+        <div class="answer" data-i18n="fq.5.a">In den umliegenden Straßen und im nahegelegenen Parkhaus finden Sie ausreichend Parkplätze. Das Restaurant ist außerdem gut mit öffentlichen Verkehrsmitteln erreichbar.</div>
       </details>
       <details>
-        <summary>Kann ich Gerichte auch mitnehmen?<span class="chev">＋</span></summary>
-        <div class="answer">Ja, fast alle Gerichte gibt es auch zum Mitnehmen. Rufen Sie einfach vorab an, dann steht Ihre Bestellung zur Abholung bereit.</div>
+        <summary><span data-i18n="fq.6.q">Kann ich Gerichte auch mitnehmen?</span><span class="chev">＋</span></summary>
+        <div class="answer" data-i18n="fq.6.a">Ja, fast alle Gerichte gibt es auch zum Mitnehmen. Rufen Sie einfach vorab an, dann steht Ihre Bestellung zur Abholung bereit.</div>
       </details>
     </div>
   </div>
@@ -896,32 +901,32 @@
 <section id="contact">
   <div class="container">
     <div class="section-head reveal">
-      <div class="eyebrow">Besuchen Sie uns</div>
-      <h2>Öffnungszeiten <i>&amp; Kontakt</i></h2>
+      <div class="eyebrow" data-i18n="ct.eyebrow">Besuchen Sie uns</div>
+      <h2 data-i18n="ct.h2">Öffnungszeiten <i>&amp; Kontakt</i></h2>
     </div>
     <div class="info-grid">
       <div class="card reveal">
-        <h3><span class="dot"></span>Öffnungszeiten</h3>
-        <div class="hours-row"><span class="day">Montag</span><span class="closed">Ruhetag</span></div>
-        <div class="hours-row"><span class="day">Dienstag – Donnerstag</span><span>17:00 – 01:00 Uhr</span></div>
-        <div class="hours-row"><span class="day">Freitag &amp; Samstag</span><span>17:00 – 02:00 Uhr</span></div>
-        <div class="hours-row"><span class="day">Sonntag</span><span>10:00 – 23:00 Uhr</span></div>
-        <div class="hours-row"><span class="day">Küche</span><span>bis 22:30 Uhr</span></div>
+        <h3><span class="dot"></span><span data-i18n="ct.hours">Öffnungszeiten</span></h3>
+        <div class="hours-row"><span class="day" data-i18n="ct.mon">Montag</span><span class="closed" data-i18n="ct.ruhetag">Ruhetag</span></div>
+        <div class="hours-row"><span class="day" data-i18n="ct.tue">Dienstag – Donnerstag</span><span data-i18n="ct.t1">17:00 – 01:00 Uhr</span></div>
+        <div class="hours-row"><span class="day" data-i18n="ct.fri">Freitag &amp; Samstag</span><span data-i18n="ct.t2">17:00 – 02:00 Uhr</span></div>
+        <div class="hours-row"><span class="day" data-i18n="ct.sun">Sonntag</span><span data-i18n="ct.t3">10:00 – 23:00 Uhr</span></div>
+        <div class="hours-row"><span class="day" data-i18n="ct.kitchen">Küche</span><span data-i18n="ct.t4">bis 22:30 Uhr</span></div>
         <div class="open-now" id="openNow"><span class="pulse"></span><span id="openNowText">Bar geöffnet bis 1 Uhr, Fr &amp; Sa bis 2 Uhr</span></div>
       </div>
       <div class="card reveal d1">
-        <h3><span class="dot"></span>Kontakt</h3>
+        <h3><span class="dot"></span><span data-i18n="ct.contact">Kontakt</span></h3>
         <div class="contact-line">
           <div class="ico">📍</div>
-          <div><strong>Adresse</strong>Musterstraße 12 · 12345 Musterstadt</div>
+          <div><strong data-i18n="ct.addr">Adresse</strong>Musterstraße 12 · 12345 Musterstadt</div>
         </div>
         <div class="contact-line">
           <div class="ico">📞</div>
-          <div><strong>Telefon</strong><a href="tel:+491234567890">+49 123 456 789 0</a></div>
+          <div><strong data-i18n="ct.phone">Telefon</strong><a href="tel:+491234567890">+49 123 456 789 0</a></div>
         </div>
         <div class="contact-line">
           <div class="ico">✉️</div>
-          <div><strong>E-Mail</strong><a href="mailto:info@dennisbar-restaurant.de">info@dennisbar-restaurant.de</a></div>
+          <div><strong data-i18n="ct.mail">E-Mail</strong><a href="mailto:info@dennisbar-restaurant.de">info@dennisbar-restaurant.de</a></div>
         </div>
         <div class="contact-line">
           <div class="ico">📷</div>
@@ -931,9 +936,9 @@
       <div class="map-box reveal">
         <div>
           <div class="pin">📍</div>
-          <h4>So finden Sie uns</h4>
-          <p>Musterstraße 12 · 12345 Musterstadt · 3 Min. von der Haltestelle Zentrum</p>
-          <a class="btn btn-ghost" href="https://maps.google.com/?q=Dennis+Bar+Restaurant" target="_blank" rel="noopener">Route in Google Maps öffnen</a>
+          <h4 data-i18n="ct.maph">So finden Sie uns</h4>
+          <p data-i18n="ct.mapp">Musterstraße 12 · 12345 Musterstadt · 3 Min. von der Haltestelle Zentrum</p>
+          <a class="btn btn-ghost" href="https://maps.google.com/?q=Dennis+Bar+Restaurant" target="_blank" rel="noopener" data-i18n="ct.mapbtn">Route in Google Maps öffnen</a>
         </div>
       </div>
     </div>
@@ -944,60 +949,60 @@
 <section class="reserve" id="reserve">
   <div class="container">
     <div class="section-head reveal">
-      <div class="eyebrow">Reservierung</div>
-      <h2>Sichern Sie sich <i>Ihren Tisch</i></h2>
-      <p>Wir freuen uns auf Ihren Besuch – ob romantisches Dinner, Familienfeier oder Barabend mit Freunden.</p>
+      <div class="eyebrow" data-i18n="rs.eyebrow">Reservierung</div>
+      <h2 data-i18n="rs.h2">Sichern Sie sich <i>Ihren Tisch</i></h2>
+      <p data-i18n="rs.p">Wir freuen uns auf Ihren Besuch – ob romantisches Dinner, Familienfeier oder Barabend mit Freunden.</p>
     </div>
     <div class="reserve-box reveal">
       <div class="pattern"></div>
       <form id="reserveForm" novalidate>
         <div class="field">
-          <label for="rName">Name</label>
-          <input type="text" id="rName" name="name" placeholder="Ihr Name" required>
+          <label for="rName" data-i18n="rs.name">Name</label>
+          <input type="text" id="rName" name="name" placeholder="Ihr Name" data-i18n-ph="rs.namePh" required>
         </div>
         <div class="field">
-          <label for="rPhone">Telefon</label>
+          <label for="rPhone" data-i18n="rs.phone">Telefon</label>
           <input type="tel" id="rPhone" name="phone" placeholder="+49 …" required>
         </div>
         <div class="field">
-          <label for="rDate">Datum</label>
+          <label for="rDate" data-i18n="rs.date">Datum</label>
           <input type="date" id="rDate" name="date" required>
         </div>
         <div class="field">
-          <label for="rTime">Uhrzeit</label>
+          <label for="rTime" data-i18n="rs.time">Uhrzeit</label>
           <input type="time" id="rTime" name="time" min="10:00" max="23:30" required>
         </div>
         <div class="field">
-          <label for="rGuests">Personen</label>
+          <label for="rGuests" data-i18n="rs.guests">Personen</label>
           <select id="rGuests" name="guests">
-            <option>2 Personen</option>
-            <option>3 Personen</option>
-            <option>4 Personen</option>
-            <option>5 Personen</option>
-            <option>6 Personen</option>
-            <option>Gruppe (7+) – wir melden uns</option>
+            <option data-i18n="rs.g2">2 Personen</option>
+            <option data-i18n="rs.g3">3 Personen</option>
+            <option data-i18n="rs.g4">4 Personen</option>
+            <option data-i18n="rs.g5">5 Personen</option>
+            <option data-i18n="rs.g6">6 Personen</option>
+            <option data-i18n="rs.g7">Gruppe (7+) – wir melden uns</option>
           </select>
         </div>
         <div class="field">
-          <label for="rOccasion">Anlass (optional)</label>
+          <label for="rOccasion" data-i18n="rs.occasion">Anlass (optional)</label>
           <select id="rOccasion" name="occasion">
-            <option>Kein besonderer Anlass</option>
-            <option>Geburtstag</option>
-            <option>Verlobung / Jubiläum</option>
-            <option>Geschäftsessen</option>
-            <option>Private Feier</option>
+            <option data-i18n="rs.o1">Kein besonderer Anlass</option>
+            <option data-i18n="rs.o2">Geburtstag</option>
+            <option data-i18n="rs.o3">Verlobung / Jubiläum</option>
+            <option data-i18n="rs.o4">Geschäftsessen</option>
+            <option data-i18n="rs.o5">Private Feier</option>
           </select>
         </div>
         <div class="field full">
-          <label for="rMsg">Nachricht (optional)</label>
-          <textarea id="rMsg" name="message" rows="3" placeholder="Besondere Wünsche, Allergien, Kinderstuhl …"></textarea>
+          <label for="rMsg" data-i18n="rs.msg">Nachricht (optional)</label>
+          <textarea id="rMsg" name="message" rows="3" placeholder="Besondere Wünsche, Allergien, Kinderstuhl …" data-i18n-ph="rs.msgPh"></textarea>
         </div>
-        <button type="submit" class="btn btn-gold">Reservierung anfragen</button>
+        <button type="submit" class="btn btn-gold" data-i18n="rs.submit">Reservierung anfragen</button>
       </form>
       <div class="form-success" id="formSuccess">
         <div class="check">🌙✨</div>
-        <h3>Teşekkürler – Vielen Dank!</h3>
-        <p>Ihre Reservierungsanfrage ist bei uns eingegangen.<br>Wir bestätigen Ihnen den Tisch schnellstmöglich telefonisch.</p>
+        <h3 data-i18n="rs.okh">Teşekkürler – Vielen Dank!</h3>
+        <p data-i18n="rs.okp">Ihre Reservierungsanfrage ist bei uns eingegangen.<br>Wir bestätigen Ihnen den Tisch schnellstmöglich telefonisch.</p>
       </div>
     </div>
   </div>
@@ -1013,29 +1018,29 @@
           <span class="mark">☾✦</span>
           <span>Dennis <em>Bar</em> Restaurant</span>
         </a>
-        <p>Türkische Küche, moderne Barkultur und herzliche Gastfreundschaft unter einem Dach.</p>
+        <p data-i18n="ft.tagline">Türkische Küche, moderne Barkultur und herzliche Gastfreundschaft unter einem Dach.</p>
       </div>
       <div class="footer-links">
         <div>
-          <h4>Navigation</h4>
+          <h4 data-i18n="ft.nav">Navigation</h4>
           <ul>
-            <li><a href="#about">Über uns</a></li>
-            <li><a href="#menu">Speisekarte</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#private">Private Feiern</a></li>
-            <li><a href="#reserve">Reservierung</a></li>
+            <li><a href="#about" data-i18n="nav.about">Über uns</a></li>
+            <li><a href="#menu" data-i18n="nav.menu">Speisekarte</a></li>
+            <li><a href="#events" data-i18n="nav.events">Events</a></li>
+            <li><a href="#private" data-i18n="ft.private">Private Feiern</a></li>
+            <li><a href="#reserve" data-i18n="ft.reserve">Reservierung</a></li>
           </ul>
         </div>
         <div>
-          <h4>Rechtliches</h4>
+          <h4 data-i18n="ft.legal">Rechtliches</h4>
           <ul>
-            <li><a href="#">Impressum</a></li>
-            <li><a href="#">Datenschutz</a></li>
-            <li><a href="#">AGB</a></li>
+            <li><a href="#" data-i18n="ft.l1">Impressum</a></li>
+            <li><a href="#" data-i18n="ft.l2">Datenschutz</a></li>
+            <li><a href="#" data-i18n="ft.l3">AGB</a></li>
           </ul>
         </div>
         <div>
-          <h4>Kontakt</h4>
+          <h4 data-i18n="nav.contact">Kontakt</h4>
           <ul>
             <li><a href="tel:+491234567890">+49 123 456 789 0</a></li>
             <li><a href="mailto:info@dennisbar-restaurant.de">info@dennisbar-restaurant.de</a></li>
@@ -1045,8 +1050,8 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year">2026</span> Dennis Bar Restaurant. Alle Rechte vorbehalten.</span>
-      <span>Hoş geldiniz · Herzlich willkommen 🌙</span>
+      <span>© <span id="year">2026</span> Dennis Bar Restaurant. <span data-i18n="ft.rights">Alle Rechte vorbehalten.</span></span>
+      <span data-i18n="ft.welcome">Hoş geldiniz · Herzlich willkommen 🌙</span>
     </div>
   </div>
 </footer>
@@ -1054,7 +1059,226 @@
 <button id="toTop" aria-label="Nach oben scrollen">↑</button>
 
 <script>
-  // Sticky header + back-to-top
+  // ---------------- i18n ----------------
+  // Deutsch ist im HTML hinterlegt und wird beim Laden als Basis eingelesen.
+  const I18N = {
+    en: {
+      _title: "Dennis Bar Restaurant – Turkish Bar & Cuisine",
+      "nav.about":"About us","nav.menu":"Menu","nav.events":"Events","nav.private":"Celebrations","nav.gallery":"Gallery","nav.contact":"Contact",
+      "nav.reserveLong":"Book a table","nav.reserveShort":"Reserve",
+      "hero.est":"☾ Turkish Bar · Restaurant · Lounge",
+      "hero.sub":"Where Turkish hospitality meets modern bar culture. Meze, specialties from the mangal grill, cocktails &amp; rakı – right in the heart of the city.",
+      "hero.cta1":"Book now","hero.cta2":"Explore the menu",
+      "hero.m1":"Fresh ingredients","hero.m2":"Meze &amp; dishes","hero.m3":"Music on weekends","hero.m4num":"Till 2 am","hero.m4":"Bar open","hero.scroll":"Scroll",
+      "mq.1":"Meze <b>✦</b>","mq.2":"Rakı <b>✦</b>","mq.3":"Mangal Grill <b>✦</b>","mq.4":"Cocktails <b>✦</b>","mq.5":"Live Music <b>✦</b>","mq.6":"Baklava <b>✦</b>","mq.7":"Hoş geldiniz <b>✦</b>","mq.8":"Turkish Coffee <b>✦</b>","mq.9":"Efes on Tap <b>✦</b>",
+      "about.caption":"“Hoş geldiniz – A warm welcome”","about.eyebrow":"Our story",
+      "about.h1":"Tradition meets modernity",
+      "about.p1":"At Dennis Bar Restaurant we combine the rich cuisine of Turkey with the spirit of a modern bar. From the first çay in the afternoon to the last rakı after midnight – every visit becomes an experience.",
+      "about.h2":"From the mangal to your table",
+      "about.p2":"Our chefs prepare Adana kebab, lamb skewers and fresh pide over open charcoal – just like in Istanbul. Alongside we serve homemade meze, crispy flatbread and selected wines from Anatolia.",
+      "about.b1":"🍢 Mangal grill","about.b2":"🥂 Cocktail bar","about.b3":"🎶 Live music","about.b4":"🌿 Vegetarian options","about.b5":"🎉 Private events",
+      "menu.eyebrow":"Menu","menu.h2":"A feast for <i>all senses</i>",
+      "menu.p":"A selection of our signature dishes. You'll find the full menu with daily specials at the restaurant.",
+      "menu.tab1":"Meze &amp; Starters","menu.tab2":"From the Grill","menu.tab3":"Bar &amp; Drinks","menu.tab4":"Desserts",
+      "tag.sig":"Signature","tag.veg":"Vegetarian","tag.hot":"Spicy","tag.hot2":"Spicy","tag.fish":"Seafood","tag.fish2":"Fish","tag.classic":"Classic","tag.rec":"Recommended","tag.for2":"For two","tag.trad":"Tradition","tag.tap":"On tap","tag.soft":"Non-alcoholic","tag.home":"Homemade",
+      "d.meze1.n":"Meze Platter “Istanbul”","d.meze1.d":"Hummus, haydari, acılı ezme, olives &amp; oven-fresh flatbread – perfect for sharing.",
+      "d.meze2.d":"Crispy pastry rolls filled with sheep's cheese and fresh parsley.",
+      "d.meze3.d":"Grilled garlic sausage glazed with pomegranate syrup.",
+      "d.meze4.d":"Classic shepherd's salad with tomatoes, cucumber, onions &amp; sheep's cheese.",
+      "d.meze5.d":"Stuffed mussels with spiced rice and fresh lemon.",
+      "d.meze6.d":"Paper-thin flatbread with spiced minced meat, salad &amp; lemon.",
+      "d.grill1.d":"Spicy minced-meat skewer from the charcoal grill with bulgur &amp; grilled vegetables.",
+      "d.grill2.d":"Tender lamb skewers with sumac onions and baked potato.",
+      "d.grill3.d":"Marinated chicken wings from the mangal with homemade garlic sauce.",
+      "d.grill4.d":"Large mixed grill platter for two – the best from the mangal.",
+      "d.grill5.d":"Grilled sea bass with rocket and lemon olive oil.",
+      "d.grill6.d":"Oven-fresh pide boat with sucuk, cheese &amp; egg – our house special.",
+      "d.dr1.n":"Rakı – “Lion's Milk”","d.dr1.d":"Served the classic way with iced water, melon and white cheese.",
+      "d.dr2.d":"Vodka, ginger, pomegranate, lime &amp; fresh mint.",
+      "d.dr3.d":"Gin, Aperol, orange blossom &amp; tonic – our sundowner.",
+      "d.dr4.d":"Turkish beer, freshly tapped.",
+      "d.dr5.n":"Turkish Coffee","d.dr5.d":"Traditionally brewed in a copper pot, served with lokum.",
+      "d.dr6.d":"Homemade yoghurt drink or black tea in a tulip glass.",
+      "d.de1.d":"Homemade with pistachios and fine honey syrup.",
+      "d.de2.d":"Warm kadayif dessert with melted cheese &amp; pistachios.",
+      "d.de3.d":"Oven-baked rice pudding with cinnamon.",
+      "d.de4.n":"Lokum Selection","d.de4.d":"Turkish delight in four varieties – perfect with coffee.",
+      "menu.note":"Allergens &amp; additives on request · Vegetarian and vegan options available · Questions about the menu? <a href=\"#contact\">Talk to us</a>",
+      "ev.eyebrow":"Events &amp; Program","ev.h2":"Every week <i>an experience</i>",
+      "ev.p":"There's always something happening – from live music to a relaxed Sunday breakfast.",
+      "ev.1.day":"Friday","ev.1.t":"Live Music Nights","ev.1.d":"Saz, guitar and Turkish classics – changing artists create goosebump moments at the bar.","ev.1.time":"🕘 From 21:00",
+      "ev.2.day":"Saturday","ev.2.d":"Modern beats meet oriental sounds, with our signature cocktails late into the night.","ev.2.time":"🕙 From 22:00",
+      "ev.3.day":"Sunday","ev.3.t":"Turkish Breakfast","ev.3.d":"Kahvaltı like on the Bosphorus: rich breakfast platters for the whole family – with endless çay.","ev.3.time":"🕙 10:00 – 14:00",
+      "ev.4.day":"Match days","ev.4.t":"Live Football","ev.4.d":"Süper Lig, Bundesliga &amp; Champions League on the big screen – with stadium atmosphere.","ev.4.time":"🕒 See match schedule",
+      "ev.5.day":"Wednesday","ev.5.t":"After-Work Night","ev.5.d":"The relaxed start to the weekend: meze bites and drinks after work.","ev.5.time":"🕕 17:00 – 20:00",
+      "ev.6.day":"Monthly","ev.6.t":"Special Nights","ev.6.d":"Rakı tastings, mangal nights and seasonal theme evenings – announced on Instagram.","ev.6.time":"📅 Dates to follow",
+      "pv.eyebrow":"Private Events","pv.h2":"Your occasion, <i>our house</i>",
+      "pv.p":"Birthday, engagement or anniversary – we make your special day unforgettable.",
+      "pv.card.t":"Private Celebrations","pv.card.p":"Celebrate in stylish surroundings – exclusively in your own area or with the whole restaurant to yourselves.",
+      "pv.li1":"Birthdays, engagements &amp; anniversaries","pv.li2":"Individual menus on request","pv.li3":"Private area for up to 40 guests","pv.li4":"Music &amp; decoration on request",
+      "pv.btn":"Send a request",
+      "ga.eyebrow":"Gallery","ga.h2":"A look <i>inside</i>","ga.p":"Atmosphere, kitchen and moments from Dennis Bar Restaurant.",
+      "ga.t1":"Bar & Lounge","ga.t2":"Mangal Grill","ga.t3":"Meze Variety","ga.t4":"Evening Mood","ga.t5":"Baklava & Coffee","ga.t6":"Live Music",
+      "vo.eyebrow":"Guest Reviews","vo.h2":"What our <i>guests say</i>",
+      "vo.1.q":"The best Adana kebab outside Istanbul! The Friday-night atmosphere with live music is simply unbeatable.","vo.1.r":"Regular since day one",
+      "vo.2.q":"We celebrated our engagement here – the team organised everything perfectly. The meze buffet was a dream!","vo.2.r":"Private celebration",
+      "vo.3.q":"Modern bar, honest Turkish cuisine and incredibly warm service. The Bosporus Mule is a must!","vo.3.r":"After-work fan",
+      "fq.eyebrow":"Good to know","fq.h2":"Frequent <i>questions</i>",
+      "fq.1.q":"Do I need to book?","fq.1.a":"We recommend booking at weekends and on event nights – especially for groups of 4 or more. On weekdays you'll usually get a table spontaneously.",
+      "fq.2.q":"Are there vegetarian and vegan dishes?","fq.2.a":"Yes! Many of our meze are naturally vegetarian or vegan – from hummus to çoban salatası and grilled vegetables. Just ask us, we're happy to advise.",
+      "fq.3.q":"Can I hire the restaurant for a private event?","fq.3.a":"Of course. Our separate area seats up to 40 guests; for bigger occasions the whole restaurant can be booked exclusively. Contact us for an individual offer.",
+      "fq.4.q":"Are children welcome?","fq.4.a":"Absolutely! Families are especially welcome at our Turkish Sunday breakfast. High chairs are available and the kitchen also makes small portions.",
+      "fq.5.q":"Is there parking nearby?","fq.5.a":"You'll find plenty of parking in the surrounding streets and the nearby car park. The restaurant is also easy to reach by public transport.",
+      "fq.6.q":"Can I get dishes to take away?","fq.6.a":"Yes, almost every dish is available to take away. Just call ahead and your order will be ready for pickup.",
+      "ct.eyebrow":"Visit us","ct.h2":"Opening Hours <i>&amp; Contact</i>",
+      "ct.hours":"Opening Hours","ct.mon":"Monday","ct.ruhetag":"Closed","ct.tue":"Tuesday – Thursday","ct.fri":"Friday &amp; Saturday","ct.sun":"Sunday","ct.kitchen":"Kitchen",
+      "ct.t1":"17:00 – 01:00","ct.t2":"17:00 – 02:00","ct.t3":"10:00 – 23:00","ct.t4":"until 22:30",
+      "ct.contact":"Contact","ct.addr":"Address","ct.phone":"Phone","ct.mail":"Email",
+      "ct.maph":"How to find us","ct.mapp":"Musterstraße 12 · 12345 Musterstadt · 3 min from the Zentrum stop","ct.mapbtn":"Open route in Google Maps",
+      "rs.eyebrow":"Reservation","rs.h2":"Secure <i>your table</i>",
+      "rs.p":"We look forward to your visit – a romantic dinner, family celebration or a bar night with friends.",
+      "rs.name":"Name","rs.namePh":"Your name","rs.phone":"Phone","rs.date":"Date","rs.time":"Time","rs.guests":"Guests","rs.occasion":"Occasion (optional)","rs.msg":"Message (optional)",
+      "rs.msgPh":"Special requests, allergies, high chair …",
+      "rs.g2":"2 guests","rs.g3":"3 guests","rs.g4":"4 guests","rs.g5":"5 guests","rs.g6":"6 guests","rs.g7":"Group (7+) – we'll get in touch",
+      "rs.o1":"No special occasion","rs.o2":"Birthday","rs.o3":"Engagement / anniversary","rs.o4":"Business dinner","rs.o5":"Private celebration",
+      "rs.submit":"Request reservation",
+      "rs.okh":"Teşekkürler – Thank you!","rs.okp":"We've received your reservation request.<br>We'll confirm your table by phone as soon as possible.",
+      "ft.tagline":"Turkish cuisine, modern bar culture and heartfelt hospitality under one roof.",
+      "ft.nav":"Navigation","ft.private":"Private Events","ft.reserve":"Reservation","ft.legal":"Legal","ft.l1":"Legal notice","ft.l2":"Privacy","ft.l3":"Terms",
+      "ft.rights":"All rights reserved.","ft.welcome":"Hoş geldiniz · Welcome 🌙",
+      "open.now":"Open now – see you soon!","open.ruhetag":"Closed today – see you tomorrow!","open.closed":"Currently closed – see you later!"
+    },
+    tr: {
+      _title: "Dennis Bar Restaurant – Türk Barı & Mutfağı",
+      "nav.about":"Hakkımızda","nav.menu":"Menü","nav.events":"Etkinlikler","nav.private":"Kutlamalar","nav.gallery":"Galeri","nav.contact":"İletişim",
+      "nav.reserveLong":"Masa ayırt","nav.reserveShort":"Rezervasyon",
+      "hero.est":"☾ Türk Barı · Restoran · Lounge",
+      "hero.sub":"Türk misafirperverliğinin modern bar kültürüyle buluştuğu yer. Meze, mangal spesiyaliteleri, kokteyller ve rakı – şehrin tam kalbinde.",
+      "hero.cta1":"Hemen rezervasyon","hero.cta2":"Menüyü keşfet",
+      "hero.m1":"Taze malzemeler","hero.m2":"Meze &amp; yemek","hero.m3":"Hafta sonu canlı müzik","hero.m4num":"02:00'ye dek","hero.m4":"Bar açık","hero.scroll":"Kaydır",
+      "mq.1":"Meze <b>✦</b>","mq.2":"Rakı <b>✦</b>","mq.3":"Mangal <b>✦</b>","mq.4":"Kokteyller <b>✦</b>","mq.5":"Canlı Müzik <b>✦</b>","mq.6":"Baklava <b>✦</b>","mq.7":"Hoş geldiniz <b>✦</b>","mq.8":"Türk Kahvesi <b>✦</b>","mq.9":"Fıçı Efes <b>✦</b>",
+      "about.caption":"“Hoş geldiniz – Sofraya buyurun”","about.eyebrow":"Hikayemiz",
+      "about.h1":"Gelenek modernle buluşuyor",
+      "about.p1":"Dennis Bar Restaurant'ta Türkiye'nin zengin mutfağını modern bar keyfiyle buluşturuyoruz. Öğleden sonraki ilk çaydan gece yarısından sonraki son rakıya kadar – her ziyaret bir deneyime dönüşür.",
+      "about.h2":"Mangaldan sofraya",
+      "about.p2":"Şeflerimiz Adana kebabı, kuzu şiş ve taze pideyi tıpkı İstanbul'daki gibi kömür ateşinde hazırlıyor. Yanında ev yapımı mezeler, çıtır lavaş ve Anadolu'dan seçilmiş şaraplar sunuyoruz.",
+      "about.b1":"🍢 Mangal","about.b2":"🥂 Kokteyl barı","about.b3":"🎶 Canlı müzik","about.b4":"🌿 Vejetaryen seçenekler","about.b5":"🎉 Özel kutlamalar",
+      "menu.eyebrow":"Menü","menu.h2":"Tüm duyulara <i>bir şölen</i>",
+      "menu.p":"İmza yemeklerimizden bir seçki. Günün önerileriyle birlikte tam menüyü restoranımızda bulabilirsiniz.",
+      "menu.tab1":"Meze &amp; Başlangıçlar","menu.tab2":"Mangaldan","menu.tab3":"Bar &amp; İçecekler","menu.tab4":"Tatlılar",
+      "tag.sig":"İmza","tag.veg":"Vejetaryen","tag.hot":"Acılı","tag.hot2":"Acılı","tag.fish":"Deniz ürünleri","tag.fish2":"Balık","tag.classic":"Klasik","tag.rec":"Tavsiye","tag.for2":"2 kişilik","tag.trad":"Gelenek","tag.tap":"Fıçıdan","tag.soft":"Alkolsüz","tag.home":"Ev yapımı",
+      "d.meze1.n":"Meze Tabağı “İstanbul”","d.meze1.d":"Humus, haydari, acılı ezme, zeytin ve fırından taze lavaş – paylaşmak için ideal.",
+      "d.meze2.d":"Beyaz peynirli ve maydanozlu çıtır sigara böreği.",
+      "d.meze3.d":"Nar ekşisiyle glaze edilmiş ızgara sucuk.",
+      "d.meze4.d":"Domates, salatalık, soğan ve beyaz peynirli klasik çoban salatası.",
+      "d.meze5.d":"Baharatlı iç pilavlı midye dolma, taze limon eşliğinde.",
+      "d.meze6.d":"İncecik hamurda baharatlı kıyma, salata ve limonla.",
+      "d.grill1.d":"Kömür ateşinde acılı kıyma şiş, bulgur pilavı ve ızgara sebzeyle.",
+      "d.grill2.d":"Sumaklı soğan ve fırın patates eşliğinde yumuşacık kuzu şiş.",
+      "d.grill3.d":"Mangalda marine edilmiş kanat, ev yapımı sarımsaklı sosla.",
+      "d.grill4.d":"İki kişilik büyük karışık ızgara – mangalın en iyileri.",
+      "d.grill5.d":"Roka ve limonlu zeytinyağıyla ızgara levrek.",
+      "d.grill6.d":"Sucuklu, kaşarlı, yumurtalı fırından taze pide – evin spesiyali.",
+      "d.dr1.n":"Rakı – “Aslan Sütü”","d.dr1.d":"Klasik usul buzlu suyla; kavun ve beyaz peynir eşliğinde.",
+      "d.dr2.d":"Votka, zencefil, nar, misket limonu ve taze nane.",
+      "d.dr3.d":"Cin, Aperol, portakal çiçeği ve tonik – gün batımı kokteylimiz.",
+      "d.dr4.d":"Fıçıdan taze Türk birası.",
+      "d.dr5.n":"Türk Kahvesi","d.dr5.d":"Cezvede geleneksel usul pişirilir, lokumla servis edilir.",
+      "d.dr6.d":"Ev yapımı ayran veya ince belli bardakta çay.",
+      "d.de1.d":"Antep fıstıklı, bal şerbetli, ev yapımı.",
+      "d.de2.d":"Eritilmiş peynirli, fıstıklı sıcak künefe.",
+      "d.de3.d":"Fırında sütlaç, tarçınla.",
+      "d.de4.n":"Lokum Çeşitleri","d.de4.d":"Dört çeşit lokum – kahvenin yanına birebir.",
+      "menu.note":"Alerjenler ve katkı maddeleri için lütfen sorunuz · Vejetaryen ve vegan seçenekler mevcut · Menü hakkında sorunuz mu var? <a href=\"#contact\">Bize ulaşın</a>",
+      "ev.eyebrow":"Etkinlikler &amp; Program","ev.h2":"Her hafta <i>bir deneyim</i>",
+      "ev.p":"Bizde her zaman bir şeyler olur – canlı müzikten keyifli pazar kahvaltısına.",
+      "ev.1.day":"Cuma","ev.1.t":"Canlı Müzik Geceleri","ev.1.d":"Saz, gitar ve Türk klasikleri – değişen sanatçılarla barda unutulmaz anlar.","ev.1.time":"🕘 21:00'den itibaren",
+      "ev.2.day":"Cumartesi","ev.2.d":"Modern ritimler oryantal tınılarla buluşuyor; imza kokteyllerimiz gece boyunca sizinle.","ev.2.time":"🕙 22:00'den itibaren",
+      "ev.3.day":"Pazar","ev.3.t":"Serpme Kahvaltı","ev.3.d":"Boğaz'daki gibi kahvaltı: tüm aile için zengin serpme kahvaltı – sınırsız çay eşliğinde.","ev.3.time":"🕙 10:00 – 14:00",
+      "ev.4.day":"Maç günleri","ev.4.t":"Canlı Futbol","ev.4.d":"Süper Lig, Bundesliga ve Şampiyonlar Ligi dev ekranda – stadyum atmosferiyle.","ev.4.time":"🕒 Fikstüre göre",
+      "ev.5.day":"Çarşamba","ev.5.t":"İş Çıkışı Keyfi","ev.5.d":"Hafta sonuna rahat bir başlangıç: iş sonrası meze ve içecekler.","ev.5.time":"🕕 17:00 – 20:00",
+      "ev.6.day":"Aylık","ev.6.t":"Özel Geceler","ev.6.d":"Rakı tadımları, mangal geceleri ve sezonluk temalı akşamlar – Instagram'da duyurulur.","ev.6.time":"📅 Tarihler yakında",
+      "pv.eyebrow":"Özel Kutlamalar","pv.h2":"Sizin gününüz, <i>bizim evimiz</i>",
+      "pv.p":"Doğum günü, nişan veya yıl dönümü – özel gününüzü unutulmaz kılıyoruz.",
+      "pv.card.t":"Özel Kutlamalar","pv.card.p":"Şık bir ortamda kutlayın – size özel bölümde ya da restoranın tamamı sizin olsun.",
+      "pv.li1":"Doğum günleri, nişanlar ve yıl dönümleri","pv.li2":"İsteğe göre özel menüler","pv.li3":"40 kişiye kadar özel bölüm","pv.li4":"İsteğe göre müzik ve dekorasyon",
+      "pv.btn":"Talep gönder",
+      "ga.eyebrow":"Galeri","ga.h2":"Mekândan <i>kareler</i>","ga.p":"Dennis Bar Restaurant'tan atmosfer, mutfak ve anlar.",
+      "ga.t1":"Bar & Lounge","ga.t2":"Mangal","ga.t3":"Meze Çeşitleri","ga.t4":"Akşam Keyfi","ga.t5":"Baklava & Kahve","ga.t6":"Canlı Müzik",
+      "vo.eyebrow":"Misafir Yorumları","vo.h2":"Misafirlerimiz <i>ne diyor</i>",
+      "vo.1.q":"İstanbul dışındaki en iyi Adana kebabı! Cuma akşamları canlı müzikli atmosfer tek kelimeyle harika.","vo.1.r":"İlk günden beri müdavim",
+      "vo.2.q":"Nişanımızı burada kutladık – ekip her şeyi kusursuz organize etti. Meze büfesi bir rüyaydı!","vo.2.r":"Özel kutlama",
+      "vo.3.q":"Modern bar, sahici Türk mutfağı ve son derece sıcak servis. Bosporus Mule şart!","vo.3.r":"İş çıkışı müdavimi",
+      "fq.eyebrow":"Bilmekte fayda var","fq.h2":"Sık sorulan <i>sorular</i>",
+      "fq.1.q":"Rezervasyon gerekli mi?","fq.1.a":"Hafta sonları ve etkinlik akşamlarında – özellikle 4 kişi ve üzeri gruplar için – rezervasyon öneririz. Hafta içi genellikle yer bulunur.",
+      "fq.2.q":"Vejetaryen ve vegan yemekler var mı?","fq.2.a":"Evet! Mezelerimizin çoğu doğal olarak vejetaryen veya vegandır – humustan çoban salatasına ve ızgara sebzelere. Sormanız yeterli, memnuniyetle yardımcı oluruz.",
+      "fq.3.q":"Restoranı özel bir kutlama için kiralayabilir miyim?","fq.3.a":"Elbette. Özel bölümümüz 40 kişiye kadar uygundur; daha büyük davetler için restoranın tamamı kiralanabilir. Size özel teklif için bize ulaşın.",
+      "fq.4.q":"Çocuklar için uygun mu?","fq.4.a":"Kesinlikle! Özellikle pazar kahvaltısında aileleri ağırlamaktan mutluluk duyarız. Mama sandalyemiz var, mutfağımız küçük porsiyonlar da hazırlar.",
+      "fq.5.q":"Park yeri var mı?","fq.5.a":"Çevre sokaklarda ve yakındaki otoparkta yeterince yer bulabilirsiniz. Restorana toplu taşımayla da kolayca ulaşılır.",
+      "fq.6.q":"Paket servis var mı?","fq.6.a":"Evet, hemen hemen tüm yemekler paket olarak alınabilir. Önceden arayın, siparişiniz teslim almaya hazır olsun.",
+      "ct.eyebrow":"Bize uğrayın","ct.h2":"Çalışma Saatleri <i>&amp; İletişim</i>",
+      "ct.hours":"Çalışma Saatleri","ct.mon":"Pazartesi","ct.ruhetag":"Kapalı","ct.tue":"Salı – Perşembe","ct.fri":"Cuma &amp; Cumartesi","ct.sun":"Pazar","ct.kitchen":"Mutfak",
+      "ct.t1":"17:00 – 01:00","ct.t2":"17:00 – 02:00","ct.t3":"10:00 – 23:00","ct.t4":"22:30'a kadar",
+      "ct.contact":"İletişim","ct.addr":"Adres","ct.phone":"Telefon","ct.mail":"E-posta",
+      "ct.maph":"Bize nasıl ulaşırsınız","ct.mapp":"Musterstraße 12 · 12345 Musterstadt · Zentrum durağına 3 dk","ct.mapbtn":"Google Maps'te yol tarifi",
+      "rs.eyebrow":"Rezervasyon","rs.h2":"Masanızı <i>şimdiden ayırtın</i>",
+      "rs.p":"Sizi ağırlamak için sabırsızlanıyoruz – romantik bir akşam yemeği, aile kutlaması veya arkadaşlarla bar gecesi.",
+      "rs.name":"Ad Soyad","rs.namePh":"Adınız","rs.phone":"Telefon","rs.date":"Tarih","rs.time":"Saat","rs.guests":"Kişi sayısı","rs.occasion":"Vesile (isteğe bağlı)","rs.msg":"Mesaj (isteğe bağlı)",
+      "rs.msgPh":"Özel istekler, alerjiler, mama sandalyesi …",
+      "rs.g2":"2 kişi","rs.g3":"3 kişi","rs.g4":"4 kişi","rs.g5":"5 kişi","rs.g6":"6 kişi","rs.g7":"Grup (7+) – size ulaşırız",
+      "rs.o1":"Özel bir vesile yok","rs.o2":"Doğum günü","rs.o3":"Nişan / yıl dönümü","rs.o4":"İş yemeği","rs.o5":"Özel kutlama",
+      "rs.submit":"Rezervasyon talebi gönder",
+      "rs.okh":"Teşekkürler!","rs.okp":"Rezervasyon talebiniz bize ulaştı.<br>Masanızı en kısa sürede telefonla onaylayacağız.",
+      "ft.tagline":"Türk mutfağı, modern bar kültürü ve içten misafirperverlik tek çatı altında.",
+      "ft.nav":"Sayfalar","ft.private":"Özel Kutlamalar","ft.reserve":"Rezervasyon","ft.legal":"Yasal","ft.l1":"Künye","ft.l2":"Gizlilik","ft.l3":"Koşullar",
+      "ft.rights":"Tüm hakları saklıdır.","ft.welcome":"Hoş geldiniz 🌙",
+      "open.now":"Şu an açığız – bekleriz!","open.ruhetag":"Bugün kapalıyız – yarın görüşürüz!","open.closed":"Şu an kapalıyız – sonra görüşürüz!"
+    }
+  };
+
+  // Deutsche Texte aus dem DOM als Basiswörterbuch einsammeln
+  const deTexts = {}, dePh = {}, deLabels = {};
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    if (!(k in deTexts)) deTexts[k] = el.innerHTML;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { dePh[el.dataset.i18nPh] = el.placeholder; });
+  document.querySelectorAll('[data-i18n-label]').forEach(el => { deLabels[el.dataset.i18nLabel] = el.dataset.label; });
+  deTexts['open.now'] = 'Jetzt geöffnet – wir freuen uns auf Sie!';
+  deTexts['open.ruhetag'] = 'Heute Ruhetag – bis morgen!';
+  deTexts['open.closed'] = 'Aktuell geschlossen – bis später!';
+  const deTitle = document.title;
+
+  let currentLang = 'de';
+  function dict(lang){ return lang === 'de' ? deTexts : I18N[lang]; }
+
+  function setLang(lang){
+    if (lang !== 'de' && !I18N[lang]) lang = 'de';
+    currentLang = lang;
+    const d = dict(lang);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const v = d[el.dataset.i18n];
+      if (v !== undefined) el.innerHTML = v;
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const v = lang === 'de' ? dePh[el.dataset.i18nPh] : d[el.dataset.i18nPh];
+      if (v !== undefined) el.placeholder = v;
+    });
+    document.querySelectorAll('[data-i18n-label]').forEach(el => {
+      const v = lang === 'de' ? deLabels[el.dataset.i18nLabel] : d[el.dataset.i18nLabel];
+      if (v !== undefined) el.dataset.label = v;
+    });
+    document.documentElement.lang = lang;
+    document.title = lang === 'de' ? deTitle : d._title;
+    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    try { localStorage.setItem('dennisbar-lang', lang); } catch(e) {}
+    renderOpenNow();
+  }
+
+  document.querySelectorAll('.lang-switch button').forEach(b =>
+    b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+  // ---------------- UI ----------------
   const header = document.getElementById('header');
   const toTop = document.getElementById('toTop');
   window.addEventListener('scroll', () => {
@@ -1063,7 +1287,6 @@
   }, {passive:true});
   toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
-  // Mobile navigation
   const burger = document.getElementById('burger');
   const navLinks = document.getElementById('navLinks');
   burger.addEventListener('click', () => {
@@ -1075,7 +1298,6 @@
     navLinks.classList.remove('open');
   }));
 
-  // Menu tabs
   document.querySelectorAll('.menu-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
@@ -1085,21 +1307,19 @@
     });
   });
 
-  // Scroll reveal
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, {threshold:.12});
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // "Jetzt geöffnet"-Anzeige (Zeiten: Mo Ruhetag, Di–Do 17–01, Fr/Sa 17–02, So 10–23)
-  (function(){
+  // "Jetzt geöffnet"-Anzeige – Minutenfenster je Wochentag, Nach-Mitternacht-Stunden dem Folgetag zugeordnet:
+  // Di–Do 17–01, Fr/Sa 17–02, So 10–23, Mo Ruhetag
+  function renderOpenNow(){
     const el = document.getElementById('openNow');
     const txt = document.getElementById('openNowText');
     const now = new Date();
     const day = now.getDay(); // 0=So … 6=Sa
     const mins = now.getHours()*60 + now.getMinutes();
-    // Minutenfenster je Wochentag, Nach-Mitternacht-Stunden dem Folgetag zugeordnet:
-    // Di–Do 17–01, Fr/Sa 17–02, So 10–23, Mo Ruhetag
     const openRanges = {
       0:[[0,120],[600,1380]],   // So: Sa-Ausklang bis 02 + 10–23
       1:[],                     // Mo: Ruhetag
@@ -1110,15 +1330,11 @@
       6:[[0,120],[1020,1440]]   // Sa: Fr-Ausklang bis 02 + ab 17
     };
     const isOpen = (openRanges[day] || []).some(([a,b]) => mins >= a && mins < b);
-    if (isOpen) {
-      txt.textContent = 'Jetzt geöffnet – wir freuen uns auf Sie!';
-    } else {
-      el.classList.add('closed-now');
-      txt.textContent = day === 1 ? 'Heute Ruhetag – bis morgen!' : 'Aktuell geschlossen – bis später!';
-    }
-  })();
+    const d = dict(currentLang);
+    el.classList.toggle('closed-now', !isOpen);
+    txt.textContent = isOpen ? d['open.now'] : (day === 1 ? d['open.ruhetag'] : d['open.closed']);
+  }
 
-  // Reservation form (Demo: zeigt Bestätigung, kein Backend angebunden)
   const form = document.getElementById('reserveForm');
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -1127,12 +1343,19 @@
     document.getElementById('formSuccess').style.display = 'block';
   });
 
-  // Date field: heute als Minimum
   const dateInput = document.getElementById('rDate');
   if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
 
-  // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Startsprache: gespeicherte Wahl > Browsersprache > Deutsch
+  let startLang = 'de';
+  try { startLang = localStorage.getItem('dennisbar-lang') || ''; } catch(e) {}
+  if (!startLang) {
+    const nav = (navigator.language || 'de').toLowerCase();
+    startLang = nav.startsWith('tr') ? 'tr' : nav.startsWith('en') ? 'en' : 'de';
+  }
+  setLang(startLang);
 </script>
 </body>
 </html>
