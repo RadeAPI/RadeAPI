@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
+<script>document.documentElement.classList.add('js')</script>
 <style>
   :root{
     --bg:#0b0908;
@@ -98,6 +99,8 @@
   }
   .nav-links a:not(.btn):hover{color:var(--gold-light)}
   .nav-links a:not(.btn):hover::after{width:100%}
+  /* Reservieren-Button existiert doppelt: in der Linkliste (mobil) und daneben (Desktop) */
+  .nav-links .btn{display:none}
   .btn{
     display:inline-flex;align-items:center;gap:10px;
     padding:14px 30px;border-radius:999px;
@@ -125,7 +128,7 @@
 
   /* ---------- Hero ---------- */
   .hero{
-    position:relative;min-height:100svh;
+    position:relative;min-height:100vh;min-height:100svh;
     display:flex;align-items:center;justify-content:center;text-align:center;
     background:
       radial-gradient(ellipse 80% 55% at 50% -10%,var(--teal-soft),transparent),
@@ -216,9 +219,14 @@
   .section-head h2 i{color:var(--gold-light);font-weight:600}
   .section-head p{color:var(--muted);margin-top:16px}
 
-  .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
-  .reveal.visible{opacity:1;transform:none}
-  .reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}
+  /* Reveal-Animation nur, wenn JS aktiv ist (html.js) – sonst ist alles sofort sichtbar */
+  html.js .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
+  html.js .reveal.visible{opacity:1;transform:none}
+  html.js .reveal.d1{transition-delay:.1s}html.js .reveal.d2{transition-delay:.2s}html.js .reveal.d3{transition-delay:.3s}
+  @media (prefers-reduced-motion:reduce){
+    html.js .reveal{opacity:1;transform:none;transition:none}
+    .marquee-track{animation:none}
+  }
 
   /* ---------- About ---------- */
   .about{background:var(--bg-2)}
@@ -230,7 +238,7 @@
       radial-gradient(circle at 70% 80%,rgba(46,168,156,.26),transparent 55%),
       var(--bg-3);
     border:1px solid var(--line);
-    overflow:hidden;display:grid;place-items:center;
+    display:grid;place-items:center;
   }
   .about-visual .inner-frame{position:absolute;inset:18px;border:1px solid rgba(212,162,78,.3);border-radius:12px}
   .about-visual .big-icon{font-size:5.5rem;filter:drop-shadow(0 10px 30px rgba(0,0,0,.5))}
@@ -622,7 +630,10 @@
 
 <!-- ===== Marquee ===== -->
 <div class="marquee" aria-hidden="true">
-  <div class="marquee-track" id="marqueeTrack">
+  <div class="marquee-track">
+    <span>Meze <b>✦</b></span><span>Rakı <b>✦</b></span><span>Mangal-Grill <b>✦</b></span>
+    <span>Cocktails <b>✦</b></span><span>Live-Musik <b>✦</b></span><span>Baklava <b>✦</b></span>
+    <span>Hoş geldiniz <b>✦</b></span><span>Türkischer Mokka <b>✦</b></span><span>Efes vom Fass <b>✦</b></span>
     <span>Meze <b>✦</b></span><span>Rakı <b>✦</b></span><span>Mangal-Grill <b>✦</b></span>
     <span>Cocktails <b>✦</b></span><span>Live-Musik <b>✦</b></span><span>Baklava <b>✦</b></span>
     <span>Hoş geldiniz <b>✦</b></span><span>Türkischer Mokka <b>✦</b></span><span>Efes vom Fass <b>✦</b></span>
@@ -911,7 +922,7 @@
         <div class="hours-row"><span class="day">Freitag &amp; Samstag</span><span>17:00 – 02:00 Uhr</span></div>
         <div class="hours-row"><span class="day">Sonntag</span><span>10:00 – 23:00 Uhr</span></div>
         <div class="hours-row"><span class="day">Küche</span><span>bis 22:30 Uhr</span></div>
-        <div class="open-now" id="openNow"><span class="pulse"></span><span id="openNowText">Öffnungsstatus wird geladen …</span></div>
+        <div class="open-now" id="openNow"><span class="pulse"></span><span id="openNowText">Bar geöffnet bis 1 Uhr, Fr &amp; Sa bis 2 Uhr</span></div>
       </div>
       <div class="card reveal d1">
         <h3><span class="dot"></span>Kontakt</h3>
@@ -1049,7 +1060,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year"></span> Dennis Bar Restaurant. Alle Rechte vorbehalten.</span>
+      <span>© <span id="year">2026</span> Dennis Bar Restaurant. Alle Rechte vorbehalten.</span>
       <span>Hoş geldiniz · Herzlich willkommen 🌙</span>
     </div>
   </div>
@@ -1078,10 +1089,6 @@
     burger.classList.remove('open');
     navLinks.classList.remove('open');
   }));
-
-  // Marquee: Inhalt duplizieren für nahtlosen Loop
-  const track = document.getElementById('marqueeTrack');
-  track.innerHTML += track.innerHTML;
 
   // Menu tabs
   document.querySelectorAll('.menu-tab').forEach(tab => {
