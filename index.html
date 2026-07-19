@@ -74,7 +74,7 @@
   .nav{display:flex;align-items:center;justify-content:space-between;gap:20px}
   .logo{
     font-family:var(--font-display);
-    font-size:1.35rem;font-weight:700;letter-spacing:.5px;
+    font-size:1.22rem;font-weight:700;letter-spacing:.5px;
     color:var(--text);text-decoration:none;
     display:flex;align-items:center;gap:11px;white-space:nowrap;
   }
@@ -87,10 +87,11 @@
     box-shadow:0 0 20px rgba(212,162,78,.15);
   }
   .logo span em{color:var(--gold);font-style:normal}
-  .nav-links{display:flex;align-items:center;gap:30px;list-style:none}
+  .nav-links{display:flex;align-items:center;gap:18px;list-style:none}
+  .nav .btn{padding:13px 22px}
   .nav-links a{
     color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:600;
-    letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
+    letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;
     transition:color .3s;position:relative;
   }
   .nav-links a:not(.btn)::after{
@@ -106,8 +107,8 @@
   .lang-switch{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex-shrink:0;background:rgba(11,9,8,.4)}
   .lang-switch button{
     background:none;border:none;color:var(--muted);cursor:pointer;
-    font-family:var(--font-body);font-weight:700;font-size:.72rem;letter-spacing:.08em;
-    padding:9px 13px;transition:all .3s;
+    font-family:var(--font-body);font-weight:700;font-size:.75rem;letter-spacing:.05em;
+    padding:10px 11px;transition:all .3s;
   }
   .lang-switch button:hover{color:var(--gold-light)}
   .lang-switch button.active{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#181206}
@@ -130,7 +131,7 @@
     border:1px solid rgba(244,238,228,.28);
   }
   .btn-ghost:hover{border-color:var(--gold);color:var(--gold-light);transform:translateY(-2px)}
-  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;z-index:110}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:12px;margin:-6px;z-index:110}
   .burger span{width:26px;height:2px;background:var(--text);transition:.35s;border-radius:2px}
   .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   .burger.open span:nth-child(2){opacity:0}
@@ -154,7 +155,7 @@
   .est{
     display:inline-block;margin-bottom:26px;
     padding:8px 22px;border:1px solid var(--line-strong);border-radius:999px;
-    font-size:.72rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-light);
+    font-size:.75rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-light);
     background:rgba(212,162,78,.06);
   }
   .eyebrow{
@@ -188,7 +189,7 @@
     width:1px;height:38px;background:var(--line-strong);
   }
   .hero-meta .num{font-family:var(--font-display);font-size:1.8rem;color:var(--gold-light);font-weight:700}
-  .hero-meta .lbl{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .hero-meta .lbl{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
   .scroll-hint{
     position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
     display:flex;flex-direction:column;align-items:center;gap:8px;
@@ -220,6 +221,8 @@
 
   /* ---------- Sections ---------- */
   section{position:relative;padding:120px 0}
+  /* Beim Anspringen per Anker nicht unter der fixen Kopfzeile verschwinden */
+  section[id],#top{scroll-margin-top:86px}
   .section-head{text-align:center;max-width:660px;margin:0 auto 70px}
   .section-head .eyebrow{margin-bottom:16px}
   .section-head h2{
@@ -302,7 +305,7 @@
   .dish-card p{color:var(--muted);font-size:.9rem;line-height:1.6}
   .dish-tags{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
   .tag{
-    font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
     padding:5px 12px;border-radius:999px;
   }
   .tag.sig{background:rgba(212,162,78,.14);color:var(--gold-light);border:1px solid var(--line-strong)}
@@ -324,7 +327,7 @@
   .event-card:hover{transform:translateY(-6px);border-color:var(--line-strong)}
   .event-day{
     display:inline-block;margin-bottom:18px;
-    font-size:.7rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+    font-size:.75rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
     color:#181206;background:linear-gradient(135deg,var(--gold-light),var(--gold));
     padding:6px 16px;border-radius:999px;
   }
@@ -469,7 +472,7 @@
     background:rgba(212,162,78,.07);
   }
   .contact-line strong{color:var(--text);display:block;font-size:.95rem}
-  .contact-line a{color:var(--gold-light);text-decoration:none}
+  .contact-line a{color:var(--gold-light);text-decoration:none;display:inline-block;padding:4px 0}
   .contact-line a:hover{text-decoration:underline}
   .map-box{
     grid-column:1/-1;border-radius:var(--radius);border:1px solid var(--line);
@@ -497,10 +500,11 @@
   form{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:20px}
   .field{display:flex;flex-direction:column;gap:8px}
   .field.full{grid-column:1/-1}
-  .field label{font-size:.73rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+  .field label{font-size:.76rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
   .field input,.field select,.field textarea{
     background:var(--bg);border:1px solid rgba(212,162,78,.25);border-radius:12px;
-    padding:15px 18px;color:var(--text);font-family:var(--font-body);font-size:.95rem;
+    padding:15px 18px;color:var(--text);font-family:var(--font-body);
+    font-size:1rem; /* mind. 16px, sonst zoomt iOS beim Fokussieren */
     outline:none;transition:border-color .3s,box-shadow .3s;appearance:none;
   }
   .field input:focus,.field select:focus,.field textarea:focus{
@@ -523,8 +527,8 @@
   .footer-links{display:flex;gap:60px;flex-wrap:wrap}
   .footer-links h4{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
   .footer-links ul{list-style:none}
-  .footer-links li{margin-bottom:10px}
-  .footer-links a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .3s}
+  .footer-links li{margin-bottom:4px}
+  .footer-links a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .3s;display:inline-block;padding:6px 0}
   .footer-links a:hover{color:var(--gold-light)}
   .footer-bottom{
     margin-top:52px;padding-top:26px;border-top:1px solid rgba(212,162,78,.1);
@@ -556,8 +560,10 @@
     .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:180px}
     .info-grid{grid-template-columns:1fr}
   }
-  @media (max-width:820px){
-    /* Kopfzeile kompakt halten, damit der Burger-Button sicher ins Bild passt */
+  /* Navigation bricht früher um als das Layout: unter 1221px reicht der Platz
+     für Logo + alle Links + Sprachwahl + Button nicht in jeder Sprache
+     (Türkisch ist am längsten; betrifft auch Handy im Querformat) */
+  @media (max-width:1220px){
     .nav{gap:12px}
     .nav-right{gap:10px}
     .logo{font-size:1.1rem;gap:8px;min-width:0}
@@ -566,8 +572,10 @@
     .nav-links{
       position:fixed;inset:0;
       background:rgba(11,9,8,.97);backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
       flex-direction:column;justify-content:center;gap:30px;
       transform:translateX(100%);transition:transform .45s cubic-bezier(.7,0,.2,1);
+      overflow-y:auto;
     }
     .nav-links.open{transform:none}
     .nav-links a{font-size:1.05rem}
@@ -578,6 +586,15 @@
     .nav-links .btn{display:inline-flex}
     .nav-links .lang-item{display:block}
     .nav-links .lang-switch button{padding:11px 18px;font-size:.85rem}
+  }
+  /* Flache Viewports (Handy im Querformat): Hero kompakter */
+  @media (max-height:520px){
+    .hero-inner{padding:110px 24px 70px}
+    .hero-meta{margin-top:40px}
+    .scroll-hint{display:none}
+    .nav-links{gap:16px}
+  }
+  @media (max-width:820px){
     section{padding:84px 0}
     .menu-panel.active,.events-grid,.quotes-grid{grid-template-columns:1fr}
     .reserve-box{padding:42px 26px}
