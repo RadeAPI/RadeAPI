@@ -62,15 +62,21 @@
   /* ---------- Navigation ---------- */
   header{
     position:fixed;top:0;left:0;right:0;z-index:100;
-    padding:22px 0;transition:all .4s ease;
+    padding:22px 0;transition:padding .4s ease;
   }
-  header.scrolled{
-    padding:10px 0;
+  /* Blur-Hintergrund als Pseudo-Element: backdrop-filter direkt auf dem Header
+     würde ihn zum Containing Block für das fixe Menü-Overlay machen und das
+     Overlay nach dem Scrollen aus dem Viewport verschieben */
+  header::before{
+    content:"";position:absolute;inset:0;z-index:-1;
     background:rgba(11,9,8,.85);
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
     border-bottom:1px solid var(--line);
+    opacity:0;transition:opacity .4s ease;
   }
+  header.scrolled{padding:10px 0}
+  header.scrolled::before{opacity:1}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:20px}
   .logo{
     font-family:var(--font-display);
@@ -1333,6 +1339,19 @@
   const navToggle = document.getElementById('navToggle');
   document.getElementById('navLinks').querySelectorAll('a').forEach(a =>
     a.addEventListener('click', () => { navToggle.checked = false; }));
+
+  // Anker-Links per JS scrollen: funktioniert auch in Umgebungen, die
+  // URL-Fragment-Navigation blockieren (z. B. sandboxte Vorschauen)
+  document.querySelectorAll('a[href^=\"#\"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        navToggle.checked = false;
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
 
   document.querySelectorAll('.menu-tab').forEach(tab => {
     tab.addEventListener('click', () => {
